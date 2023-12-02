@@ -42,7 +42,7 @@ public class InputView {
         }
     }
 
-    public static boolean isValidFormatForOrder(String input) {
+    private static boolean isValidFormatForOrder(String input) {
         String[] items = input.split(",");
         for (String item : items) {
             String[] splitItem = item.split("-");

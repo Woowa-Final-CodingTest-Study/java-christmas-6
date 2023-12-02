@@ -11,7 +11,7 @@ public class Order {
         this.order = order;
     }
 
-    private void checkOrderValidity() {
+    public void checkOrderValidity() {
         if (!menuItemsExistInMenuBoard()) {
             throw new IllegalArgumentException(ErrorMessage.invalidOrderError);
         }
@@ -36,12 +36,16 @@ public class Order {
     }
 
     private boolean menuItemsAreUnique() {
-        HashSet<String> set = new HashSet(order.keySet());
+        HashSet<String> set = new HashSet<>();
+        for (MenuBoard menu : order.keySet()) {
+            set.add(menu.name());
+        }
         if (set.size() != order.size()) {
             return false;
         }
         return true;
     }
+
 
     private boolean orderIncludesNonBeverageItem() {
         int beverageCount = 0;
