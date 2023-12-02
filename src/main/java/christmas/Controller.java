@@ -4,16 +4,18 @@ import static christmas.constants.GameMessage.ASK_ORDER_MESSAGE;
 import static christmas.constants.GameMessage.ASK_VISITING_DATE_MESSAGE;
 import static christmas.constants.GameMessage.HELLO_MESSAGE;
 
+import christmas.domain.MenuBoard;
 import christmas.domain.Order;
 import christmas.domain.VisitingDate;
 import christmas.view.InputView;
 import christmas.view.OutputView;
+import java.util.HashMap;
 
 public class Controller {
     public void init() {
         sayHello();
         VisitingDate visitingDate = enrollVisitingDate();
-        Order order = enrollOrder();
+        Order order = enrollOrder(visitingDate);
     }
 
     public void sayHello() {
@@ -35,12 +37,15 @@ public class Controller {
         return visitingDate;
     }
 
-    public Order enrollOrder() {
+    public Order enrollOrder(VisitingDate visitingDate) {
         Order order;
         do {
             try {
                 OutputView.printMessage(ASK_ORDER_MESSAGE);
                 order = InputView.getOrderInput();
+                int day = visitingDate.getDayOfMonth();
+                OutputView.printEventPreview(day);
+                OutputView.printMessage(order.getOrderDetails());
                 return order;
             } catch (IllegalArgumentException e) {
                 OutputView.printMessage(e.getMessage());
@@ -49,5 +54,7 @@ public class Controller {
         } while (order == null);
         return order;
     }
+
+
 
 }

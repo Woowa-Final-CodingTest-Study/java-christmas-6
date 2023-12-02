@@ -23,4 +23,8 @@ public class VisitingDate {
         }
         return true;
     }
+
+    public int getDayOfMonth() {
+        return visitingDate.getDayOfMonth();
+    }
 }

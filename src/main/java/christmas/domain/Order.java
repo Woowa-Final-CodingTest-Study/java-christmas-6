@@ -68,6 +68,15 @@ public class Order {
         return totalQuantity <= 20;
     }
 
+    public String getOrderDetails() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<주문 메뉴>\n");
+        for (MenuBoard menu : order.keySet()) {
+            sb.append(menu.name()).append(" ").append(order.get(menu)).append("개\n");
+        }
+        return sb.toString();
+    }
+
     public HashMap<MenuBoard, Integer> getOrder() {
         return this.order;
     }
