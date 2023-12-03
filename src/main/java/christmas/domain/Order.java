@@ -10,6 +10,10 @@ public class Order {
     private int priceBeforeDiscount;
     private int priceAfterDiscount;
 
+    public int getPriceAfterDiscount() {
+        return priceAfterDiscount;
+    }
+
     public Order(HashMap<MenuBoard, Integer> order) {
         this.order = order;
     }
@@ -124,6 +128,10 @@ public class Order {
     public void printAll() {
         System.out.println(priceBeforeDiscount);
         System.out.println(priceAfterDiscount);
-
     }
+
+    public int giveawayChampagneCount() {
+        return giveawayChampagne;
+    }
+
 }

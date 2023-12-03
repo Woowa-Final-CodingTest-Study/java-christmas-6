@@ -3,6 +3,7 @@ package christmas.domain.event;
 import christmas.domain.MenuBoard;
 import christmas.domain.Order;
 import christmas.domain.VisitingDate;
+import christmas.view.OutputView;
 import java.util.HashMap;
 
 public class EventManager {
@@ -21,7 +22,6 @@ public class EventManager {
         DdayEvent ddayEvent = context.getDdayEvent();
         VisitingDate visitingDate = context.getVisitingDate();
         DdayEventDiscount += ddayEvent.applyDdayEvent(visitingDate);
-        System.out.println(DdayEventDiscount);
         return DdayEventDiscount;
     }
 
@@ -32,7 +32,6 @@ public class EventManager {
         DailyEvent dailyEvent = context.getDailyEvent();
         VisitingDate visitingDate = context.getVisitingDate();
         dailyEventDiscount += dailyEvent.applyDailyEvent(visitingDate, order);
-        System.out.println(dailyEventDiscount);
         return dailyEventDiscount;
     }
 
@@ -43,7 +42,6 @@ public class EventManager {
         SpecialEvent specialEvent = context.getSpecialEvent();
         VisitingDate visitingDate = context.getVisitingDate();
         specialDiscount += specialEvent.applySpecialEvent(visitingDate);
-        System.out.println(specialDiscount);
         return specialDiscount;
     }
 
@@ -53,8 +51,52 @@ public class EventManager {
         GiveawayEvent giveawayEvent = context.getGiveawayEvent();
         checkAvailability(order);
         giveAwayDiscount += giveawayEvent.applyGiveawayEvent(order);
-        order.giveFreeChampagne();
-        System.out.println(giveAwayDiscount);
+        if (giveAwayDiscount > 0) {
+            order.giveFreeChampagne();
+        }
         return giveAwayDiscount;
+    }
+
+    public void printGiveaway(Order order) {
+        int count = order.giveawayChampagneCount();
+        OutputView.printGiveaway(count);
+        OutputView.printEmptyLine();
+    }
+
+    public void showDdayBenefit(EventContext context) {
+        int ddayBenefit = calculateDdayEventDiscount(context);
+        OutputView.printDdayBenefit(ddayBenefit);
+    }
+
+    public void showDailyBenefit(VisitingDate visitingDate, EventContext context) {
+        int dailyBenefit = calculateDailyEventDiscount(context);
+        if (visitingDate.isWeekend()) {
+            OutputView.printDailyBenefit_Weekend(dailyBenefit);
+        }
+        if (!visitingDate.isWeekend()) {
+            OutputView.printDailyBenefit_Weekday(dailyBenefit);
+        }
+    }
+
+    public void showSpecialBenefit(EventContext context) {
+        int specialBenefit = calculateSpecialEventDiscount(context);
+        OutputView.printSpecialBenefit(specialBenefit);
+    }
+
+    public void showGiveawayBenefit(EventContext context) {
+        int giveAwayDiscount = calculateGiveawayEventDiscount(context);
+        OutputView.printGiveawayBenefit(giveAwayDiscount);
+        OutputView.printEmptyLine();
+    }
+
+    public void showTotalDiscount(int totalDiscount) {
+        OutputView.printTotalDiscount(totalDiscount);
+        OutputView.printEmptyLine();
+    }
+
+    public void showPriceAfterDiscount(Order order) {
+        int priceAfterDiscount = order.getPriceAfterDiscount();
+        OutputView.printPriceAfterDiscount(priceAfterDiscount);
+        OutputView.printEmptyLine();
     }
 }

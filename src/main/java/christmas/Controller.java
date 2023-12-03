@@ -14,7 +14,6 @@ import christmas.domain.event.GiveawayEvent;
 import christmas.domain.event.SpecialEvent;
 import christmas.view.InputView;
 import christmas.view.OutputView;
-import java.awt.ScrollPane;
 
 public class Controller {
     DdayEvent ddayEvent = new DdayEvent();
@@ -30,9 +29,16 @@ public class Controller {
         printPriceBeforeDiscount(order);
 
         EventContext context = new EventContext(order, visitingDate, ddayEvent, dailyEvent, specialEvent, giveawayEvent);
-        applyAllEvents(manager, context, order);
+        int totalDiscount = applyAllEvents(manager, context, order);
+        manager.printGiveaway(order);
 
-        order.printAll();
+        manager.showDdayBenefit(context);
+        manager.showDailyBenefit(visitingDate, context);
+        manager.showSpecialBenefit(context);
+        manager.showGiveawayBenefit(context);
+
+        manager.showTotalDiscount(totalDiscount);
+        manager.showPriceAfterDiscount(order);
     }
 
     public void sayHello() {
@@ -77,13 +83,20 @@ public class Controller {
         OutputView.printPriceBeforeDiscount(priceBeforeDiscount);
     }
 
-    public void applyAllEvents(EventManager manager, EventContext context, Order order) {
+    public int applyAllEvents(EventManager manager, EventContext context, Order order) {
         int discount = 0;
         discount += manager.calculateDdayEventDiscount(context);
         discount += manager.calculateDailyEventDiscount(context);
         discount += manager.calculateSpecialEventDiscount(context);
         discount += manager.calculateGiveawayEventDiscount(context);
-        System.out.println("discount: " + discount);
         order.applyDiscount(discount);
+        return discount;
+    }
+
+    public void showBenefits(EventContext context, VisitingDate visitingDate) {
+        manager.showDdayBenefit(context);
+        manager.showDailyBenefit(visitingDate, context);
+        manager.showSpecialBenefit(context);
+        manager.showGiveawayBenefit(context);
     }
 }
