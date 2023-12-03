@@ -1,4 +1,6 @@
-package christmas.domain;
+package christmas.domain.event;
+
+import christmas.domain.VisitingDate;
 
 public class DdayEvent {
     public int applyDdayEvent(VisitingDate visitingDate) {

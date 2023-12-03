@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 public class Order {
     private HashMap<MenuBoard, Integer> order;
+    private int giveawayChampagne;
     private int priceBeforeDiscount;
     private int priceAfterDiscount;
 
@@ -89,11 +90,22 @@ public class Order {
         return priceBeforeDiscount;
     }
 
-    public boolean isPriceForEvent() {
+    public boolean isPriceForEveryEvents() {
         if (priceBeforeDiscount < 10_000) {
             return false;
         }
         return true;
+    }
+
+    public boolean isPriceForGiveawayEvent() {
+        if (priceBeforeDiscount >= 120_000) {
+            return true;
+        }
+        return false;
+    }
+
+    public void giveFreeChampagne() {
+        giveawayChampagne++;
     }
 
     public HashMap<MenuBoard, Integer> getOrder() {
@@ -101,7 +113,12 @@ public class Order {
     }
 
     public void applyDiscount(int discount) {
-        this.priceAfterDiscount = this.priceBeforeDiscount - discount;
+        if (isPriceForGiveawayEvent()) {
+            this.priceAfterDiscount = this.priceBeforeDiscount + (discount) + 25000;
+        }
+        if (!isPriceForGiveawayEvent()) {
+            this.priceAfterDiscount = this.priceBeforeDiscount - discount;
+        }
     }
 
     public void printAll() {

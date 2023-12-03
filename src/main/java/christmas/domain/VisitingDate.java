@@ -31,7 +31,7 @@ public class VisitingDate {
 
     public int calculateDiscountPriceForDdayEvent() {
         int day = visitingDate.getDayOfMonth();
-        return day * 100;
+        return -(1000 + (day - 1) * 100);
     }
 
     public boolean isAfterChristmas() {
@@ -49,4 +49,13 @@ public class VisitingDate {
         }
         return false;
     }
+
+    public boolean isAvailableForSpecialEvent() {
+        DayOfWeek dayOfWeek = visitingDate.getDayOfWeek();
+        if (dayOfWeek == DayOfWeek.SUNDAY || visitingDate.equals(LocalDate.of(2023, 12, 25))) {
+            return true;
+        }
+        return false;
+    }
+
 }
