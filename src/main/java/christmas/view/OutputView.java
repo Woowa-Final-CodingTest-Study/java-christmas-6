@@ -13,6 +13,13 @@ public class OutputView {
         printEmptyLine();
     }
 
+    public static void printPriceBeforeDiscount(int totalPrice) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<할인 전 총주문 금액>\n");
+        sb.append(totalPrice).append("원");
+        printMessage(sb.toString());
+    }
+
     public static void printEmptyLine() {
         System.out.println();
     }

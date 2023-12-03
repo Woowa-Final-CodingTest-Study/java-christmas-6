@@ -4,12 +4,10 @@ import static christmas.constants.GameMessage.ASK_ORDER_MESSAGE;
 import static christmas.constants.GameMessage.ASK_VISITING_DATE_MESSAGE;
 import static christmas.constants.GameMessage.HELLO_MESSAGE;
 
-import christmas.domain.MenuBoard;
 import christmas.domain.Order;
 import christmas.domain.VisitingDate;
 import christmas.view.InputView;
 import christmas.view.OutputView;
-import java.util.HashMap;
 
 public class Controller {
     public void init() {
@@ -55,6 +53,8 @@ public class Controller {
         return order;
     }
 
-
-
+    public void printPriceBeforeDiscount(Order order, int totalPrice) {
+        int priceBeforeDiscount = order.calculateTotalPrice();
+        OutputView.printPriceBeforeDiscount(priceBeforeDiscount);
+    }
 }

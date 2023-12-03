@@ -18,7 +18,7 @@ public class Order {
         if (!menuItemsAreUnique()) {
             throw new IllegalArgumentException(ErrorMessage.invalidOrderError);
         }
-        if (!orderIncludesNonBeverageItem()) {
+        if (!orderedMenusAreAllBeverage()) {
             throw new IllegalArgumentException(ErrorMessage.invalidOrderError);
         }
         if (!totalQuantityIsTwentyOrLess()) {
@@ -47,7 +47,7 @@ public class Order {
     }
 
 
-    private boolean orderIncludesNonBeverageItem() {
+    private boolean orderedMenusAreAllBeverage() {
         int beverageCount = 0;
         for (MenuBoard menu : order.keySet()) {
             if (menu.getType() == MenuType.BEVERAGE) {
@@ -75,6 +75,16 @@ public class Order {
             sb.append(menu.name()).append(" ").append(order.get(menu)).append("개\n");
         }
         return sb.toString();
+    }
+
+    public int calculateTotalPrice() {
+        int totalPrice = 0;
+        for (MenuBoard menu : order.keySet()) {
+            int quantity = order.get(menu);
+            int price = menu.getPrice();
+            totalPrice += price * quantity;
+        }
+        return totalPrice;
     }
 
     public HashMap<MenuBoard, Integer> getOrder() {
