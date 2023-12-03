@@ -13,7 +13,8 @@ public enum Menu {
     ICE_CREAM("아이스크림", 5_000),
     ZERO_COLA("제로콜라", 3_000),
     RED_WHINE("레드와인", 60_000),
-    CHAMPAGNE("샴페인", 25_000);
+    CHAMPAGNE("샴페인", 25_000),
+    NOTHING("없음", 0);
 
     private final String menuName;
     private final int price;
@@ -27,6 +28,10 @@ public enum Menu {
         return menuName;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
     public static boolean containMenu(String input) {
         for(Menu menu : Menu.values()) {
             if(input.equals(menu.getMenuName())) {
@@ -34,5 +39,14 @@ public enum Menu {
             }
         }
         return false;
+    }
+
+    public static int findMenuPrice(String name) {
+        for(Menu menu : Menu.values()) {
+            if(name.equals(menu.getMenuName())) {
+                return menu.price;
+            }
+        }
+        return NOTHING.price;
     }
 }
