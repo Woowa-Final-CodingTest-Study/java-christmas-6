@@ -6,6 +6,8 @@ import java.util.HashSet;
 
 public class Order {
     private HashMap<MenuBoard, Integer> order;
+    private int priceBeforeDiscount;
+    private int priceAfterDiscount;
 
     public Order(HashMap<MenuBoard, Integer> order) {
         this.order = order;
@@ -78,16 +80,33 @@ public class Order {
     }
 
     public int calculateTotalPrice() {
-        int totalPrice = 0;
+        priceBeforeDiscount = 0;
         for (MenuBoard menu : order.keySet()) {
             int quantity = order.get(menu);
             int price = menu.getPrice();
-            totalPrice += price * quantity;
+            priceBeforeDiscount += price * quantity;
         }
-        return totalPrice;
+        return priceBeforeDiscount;
+    }
+
+    public boolean isPriceForEvent() {
+        if (priceBeforeDiscount < 10_000) {
+            return false;
+        }
+        return true;
     }
 
     public HashMap<MenuBoard, Integer> getOrder() {
         return this.order;
+    }
+
+    public void applyDiscount(int discount) {
+        this.priceAfterDiscount = this.priceBeforeDiscount - discount;
+    }
+
+    public void printAll() {
+        System.out.println(priceBeforeDiscount);
+        System.out.println(priceAfterDiscount);
+
     }
 }

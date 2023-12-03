@@ -4,16 +4,30 @@ import static christmas.constants.GameMessage.ASK_ORDER_MESSAGE;
 import static christmas.constants.GameMessage.ASK_VISITING_DATE_MESSAGE;
 import static christmas.constants.GameMessage.HELLO_MESSAGE;
 
+import christmas.domain.DailyEvent;
+import christmas.domain.DdayEvent;
+import christmas.domain.DiscountManager;
+import christmas.domain.DiscountContext;
 import christmas.domain.Order;
 import christmas.domain.VisitingDate;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 
 public class Controller {
+    DdayEvent ddayEvent = new DdayEvent();
+    DailyEvent dailyEvent = new DailyEvent();
+    DiscountManager manager = new DiscountManager();
+
     public void init() {
         sayHello();
         VisitingDate visitingDate = enrollVisitingDate();
         Order order = enrollOrder(visitingDate);
+        printPriceBeforeDiscount(order);
+
+        DiscountContext context = new DiscountContext(order, visitingDate, ddayEvent, dailyEvent);
+        applyAllEvents(manager, context, order);
+
+        order.printAll();
     }
 
     public void sayHello() {
@@ -53,8 +67,15 @@ public class Controller {
         return order;
     }
 
-    public void printPriceBeforeDiscount(Order order, int totalPrice) {
+    public void printPriceBeforeDiscount(Order order) {
         int priceBeforeDiscount = order.calculateTotalPrice();
         OutputView.printPriceBeforeDiscount(priceBeforeDiscount);
+    }
+
+    public void applyAllEvents(DiscountManager manager, DiscountContext context, Order order) {
+        int discount = 0;
+        discount += manager.calculateDdayEventDiscount(context);
+        discount += manager.calculateDailyEventDiscount(context);
+        order.applyDiscount(discount);
     }
 }
