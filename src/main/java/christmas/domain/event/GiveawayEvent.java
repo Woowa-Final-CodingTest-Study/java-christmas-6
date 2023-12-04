@@ -7,9 +7,13 @@ public class GiveawayEvent implements Event{
     public int calculateEventDiscount(EventContext context) {
         Order order = context.getOrder();
         int discount = 0;
-        if (order.isPriceForGiveawayEvent()) {
-            discount -= 25_000;
+        if (order.isPriceForEveryEvents()) {
+            if (order.isPriceForGiveawayEvent()) {
+                order.giveFreeChampagne();
+                discount -= 25_000;
+            }
+            return discount;
         }
-        return discount;
+        return 0;
     }
 }

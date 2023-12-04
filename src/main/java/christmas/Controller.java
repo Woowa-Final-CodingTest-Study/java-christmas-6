@@ -6,10 +6,10 @@ import static christmas.constants.GameMessage.HELLO_MESSAGE;
 
 import christmas.domain.event.DailyEvent;
 import christmas.domain.event.DdayEvent;
-import christmas.domain.event.EventManager;
 import christmas.domain.event.EventContext;
 import christmas.domain.Order;
 import christmas.domain.VisitingDate;
+import christmas.domain.event.EventManager;
 import christmas.domain.event.GiveawayEvent;
 import christmas.domain.event.SpecialEvent;
 import christmas.view.InputView;
@@ -18,27 +18,16 @@ import christmas.view.OutputView;
 public class Controller {
     DdayEvent ddayEvent = new DdayEvent();
     DailyEvent dailyEvent = new DailyEvent();
-    EventManager manager = new EventManager();
     SpecialEvent specialEvent = new SpecialEvent();
     GiveawayEvent giveawayEvent = new GiveawayEvent();
 
     public void init() {
-        sayHello();
+        OutputView.printMessage(HELLO_MESSAGE);
         VisitingDate visitingDate = enrollVisitingDate();
         Order order = enrollOrder(visitingDate);
-        printPriceBeforeDiscount(order);
-
         EventContext context = new EventContext(order, visitingDate, ddayEvent, dailyEvent, specialEvent, giveawayEvent);
-        int totalDiscount = manager.applyAllEvents(manager, context, order);
-        manager.printGiveaway(order);
-
-        manager.showBenefits(context, visitingDate);
-        manager.showTotalDiscount(totalDiscount);
-        manager.showPriceAfterDiscount(order);
-    }
-
-    public void sayHello() {
-        OutputView.printMessage(HELLO_MESSAGE);
+        EventManager eventManager = new EventManager(context);
+        eventManager.printEventInfo(order, context, visitingDate);
     }
 
     public VisitingDate enrollVisitingDate() {
@@ -73,10 +62,4 @@ public class Controller {
         } while (order == null);
         return order;
     }
-
-    public void printPriceBeforeDiscount(Order order) {
-        int priceBeforeDiscount = order.calculateTotalPrice();
-        OutputView.printPriceBeforeDiscount(priceBeforeDiscount);
-    }
-
 }

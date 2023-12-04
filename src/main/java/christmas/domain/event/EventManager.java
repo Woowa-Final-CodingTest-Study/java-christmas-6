@@ -4,105 +4,74 @@ import christmas.domain.MenuBoard;
 import christmas.domain.Order;
 import christmas.domain.VisitingDate;
 import christmas.view.OutputView;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class EventManager {
-    private boolean isPriceAvailableForEvent;
+    private final List<Event> events;
 
-    public void checkAvailability(Order order) {
-        if (order.isPriceForEveryEvents()) {
-            isPriceAvailableForEvent = true;
-        }
+    public EventManager(EventContext context) {
+        this.events = createEventList(context);
     }
 
-    public int calculateDdayEventDiscount(EventContext context) {
-        int DdayEventDiscount = 0;
-        Order order = context.getOrder();
-        checkAvailability(order);
-        DdayEvent ddayEvent = context.getDdayEvent();
-        DdayEventDiscount += ddayEvent.calculateEventDiscount(context);
-        return DdayEventDiscount;
+    private List<Event> createEventList(EventContext context) {
+        List<Event> events = new ArrayList<>();
+        events.add(context.getDdayEvent());
+        events.add(context.getDailyEvent());
+        events.add(context.getSpecialEvent());
+        events.add(context.getGiveawayEvent());
+        return events;
     }
 
-    public int calculateDailyEventDiscount(EventContext context) {
-        int dailyEventDiscount = 0;
-        Order order = context.getOrder();
-        checkAvailability(order);
-        DailyEvent dailyEvent = context.getDailyEvent();
-        dailyEventDiscount += dailyEvent.calculateEventDiscount(context);
-        return dailyEventDiscount;
+    public void printEventInfo(Order order, EventContext context, VisitingDate visitingDate) {
+        showPriceBeforeDiscount(order);
+        int totalDiscount = applyAllEvents(order,context);
+        showGiveaway(order);
+        showBenefits(context, visitingDate);
+        showTotalDiscount(totalDiscount);
+        showPriceAfterDiscount(order);
     }
 
-    public int calculateSpecialEventDiscount(EventContext context) {
-        int specialDiscount = 0;
-        Order order = context.getOrder();
-        checkAvailability(order);
-        SpecialEvent specialEvent = context.getSpecialEvent();
-        specialDiscount += specialEvent.calculateEventDiscount(context);
-        return specialDiscount;
+    private static void showPriceBeforeDiscount(Order order) {
+        int priceBeforeDiscount = order.calculatePriceBeforeDiscount();
+        OutputView.printPriceBeforeDiscount(priceBeforeDiscount);
     }
 
-    public int calculateGiveawayEventDiscount(EventContext context) {
-        int giveAwayDiscount = 0;
-        Order order = context.getOrder();
-        GiveawayEvent giveawayEvent = context.getGiveawayEvent();
-        checkAvailability(order);
-        giveAwayDiscount += giveawayEvent.calculateEventDiscount(context);
-        if (giveAwayDiscount > 0) {
-            order.giveFreeChampagne();
-        }
-        return giveAwayDiscount;
-    }
-
-    public void printGiveaway(Order order) {
-        int count = order.giveawayChampagneCount();
-        OutputView.printGiveaway(count);
-        OutputView.printEmptyLine();
-    }
-
-    public void showBenefits(EventContext context, VisitingDate visitingDate) {
-        int ddayBenefit = calculateDdayEventDiscount(context);
-        int dailyBenefit = calculateDailyEventDiscount(context);
-        int specialBenefit = calculateSpecialEventDiscount(context);
-        int giveAwayDiscount = calculateGiveawayEventDiscount(context);
-
-        if (ddayBenefit == 0 && dailyBenefit  == 0 && specialBenefit == 0 && giveAwayDiscount == 0) {
-            OutputView.printMessage("<혜택 내역>");
-            OutputView.printMessage("없음");
-            OutputView.printEmptyLine();
-        }
-        if (ddayBenefit != 0 || dailyBenefit != 0 || specialBenefit != 0 || giveAwayDiscount != 0) {
-            OutputView.printDdayBenefit(ddayBenefit);
-            if (visitingDate.isWeekend()) {
-                OutputView.printDailyBenefit_Weekend(dailyBenefit);
-            }
-            if (!visitingDate.isWeekend()) {
-                OutputView.printDailyBenefit_Weekday(dailyBenefit);
-            }
-            OutputView.printSpecialBenefit(specialBenefit);
-            OutputView.printGiveawayBenefit(giveAwayDiscount);
-            OutputView.printEmptyLine();
-        }
-    }
-
-    public void showTotalDiscount(int totalDiscount) {
-        OutputView.printTotalDiscount(totalDiscount);
-        OutputView.printEmptyLine();
-    }
-
-    public void showPriceAfterDiscount(Order order) {
-        int priceAfterDiscount = order.getPriceAfterDiscount();
-        OutputView.printPriceAfterDiscount(priceAfterDiscount);
-        OutputView.printEmptyLine();
-    }
-
-    public int applyAllEvents(EventManager manager, EventContext context, Order order) {
+    private int applyAllEvents(Order order, EventContext context) {
         int discount = 0;
-        discount += manager.calculateDdayEventDiscount(context);
-        discount += manager.calculateDailyEventDiscount(context);
-        discount += manager.calculateSpecialEventDiscount(context);
-        discount += manager.calculateGiveawayEventDiscount(context);
+        for (Event event : events) {
+            discount += event.calculateEventDiscount(context);
+        }
         order.applyDiscount(discount);
         return discount;
+    }
+
+    private static void showGiveaway(Order order) {
+        int count = order.getGiveawayChampagneCount();
+        OutputView.printGiveaway(count);
+    }
+
+    private void showBenefits(EventContext context, VisitingDate visitingDate) {
+        int ddayBenefit = context.getDdayEvent().calculateEventDiscount(context);
+        int dailyBenefit = context.getDailyEvent().calculateEventDiscount(context);
+        int specialBenefit = context.getSpecialEvent().calculateEventDiscount(context);
+        int giveAwayDiscount = context.getGiveawayEvent().calculateEventDiscount(context);
+
+        if (ddayBenefit == 0 && dailyBenefit == 0 && specialBenefit == 0 && giveAwayDiscount == 0) {
+            OutputView.printBenefitList_noBenefit();
+        }
+        if (ddayBenefit != 0 || dailyBenefit != 0 || specialBenefit != 0 || giveAwayDiscount != 0) {
+            OutputView.showAllBenefits(ddayBenefit, dailyBenefit, specialBenefit, giveAwayDiscount, visitingDate);
+        }
+    }
+
+    private static void showTotalDiscount(int totalDiscount) {
+        OutputView.printTotalDiscount(totalDiscount);
+    }
+
+    private static void showPriceAfterDiscount(Order order) {
+        int priceAfterDiscount = order.getPriceAfterDiscount();
+        OutputView.printPriceAfterDiscount(priceAfterDiscount);
     }
 }

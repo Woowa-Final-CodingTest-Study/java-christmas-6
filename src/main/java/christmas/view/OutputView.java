@@ -2,12 +2,9 @@ package christmas.view;
 
 import static christmas.constants.GameMessage.EVENT_PREVIEW_MESSAGE;
 
+import christmas.domain.VisitingDate;
 
 public class OutputView {
-    public static void printMessage(String message) {
-        System.out.println(message);
-    }
-
     public static void printEventPreview(int visitingDay) {
         System.out.printf(EVENT_PREVIEW_MESSAGE, visitingDay);
         printEmptyLine();
@@ -25,6 +22,7 @@ public class OutputView {
         if (count == 0) {
             printMessage("<증정 메뉴>");
             printMessage("없음");
+            OutputView.printEmptyLine();
         }
         if (count >= 1) {
             printMessage("<증정 메뉴>");
@@ -33,17 +31,41 @@ public class OutputView {
         }
     }
 
+    public static void printBenefitList_noBenefit() {
+        printMessage("<혜택 내역>");
+        printMessage("없음");
+        OutputView.printEmptyLine();
+    }
+
+    public static void showAllBenefits(int ddayBenefit, int dailyBenefit, int specialBenefit, int giveAwayDiscount,
+                                       VisitingDate visitingDate) {
+        OutputView.printDdayBenefit(ddayBenefit);
+        OutputView.showDdayBenefit(visitingDate, dailyBenefit);
+        OutputView.printSpecialBenefit(specialBenefit);
+        OutputView.printGiveawayBenefit(giveAwayDiscount);
+        OutputView.printEmptyLine();
+    }
+
     public static void printDdayBenefit(int Ddaybenefit) {
         printMessage("<혜택 내역>");
         printMessage("크리스마스 디데이 할인: " + Ddaybenefit);
     }
 
-    public static void printDailyBenefit_Weekday(int dailyBenefit) {
-        printMessage("평일 할인: " + dailyBenefit);
+    public static void showDdayBenefit(VisitingDate visitingDate, int dailyBenefit) {
+        if (visitingDate.isWeekend()) {
+            printDailyBenefit_Weekend(dailyBenefit);
+        }
+        if (!visitingDate.isWeekend()) {
+            printDailyBenefit_Weekday(dailyBenefit);
+        }
     }
 
     public static void printDailyBenefit_Weekend(int dailyBenefit) {
         printMessage("주말 할인: " + dailyBenefit);
+    }
+
+    public static void printDailyBenefit_Weekday(int dailyBenefit) {
+        printMessage("평일 할인: " + dailyBenefit);
     }
 
     public static void printSpecialBenefit(int specialBenefit) {
@@ -62,11 +84,18 @@ public class OutputView {
     public static void printTotalDiscount(int totalDiscount) {
         printMessage("<총혜택 금액>");
         printMessage(totalDiscount + "원");
+        OutputView.printEmptyLine();
+
     }
 
     public static void printPriceAfterDiscount(int PriceAfterDiscount) {
         printMessage("<할인 후 예상 결제 금액>");
         printMessage(PriceAfterDiscount + "원");
+        OutputView.printEmptyLine();
+    }
+
+    public static void printMessage(String message) {
+        System.out.println(message);
     }
 
     public static void printEmptyLine() {

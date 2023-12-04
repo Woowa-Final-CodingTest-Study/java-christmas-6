@@ -10,10 +10,6 @@ public class Order {
     private int priceBeforeDiscount;
     private int priceAfterDiscount;
 
-    public int getPriceAfterDiscount() {
-        return priceAfterDiscount;
-    }
-
     public Order(HashMap<MenuBoard, Integer> order) {
         this.order = order;
     }
@@ -53,7 +49,6 @@ public class Order {
         return true;
     }
 
-
     private boolean orderedMenusAreAllBeverage() {
         int beverageCount = 0;
         for (MenuBoard menu : order.keySet()) {
@@ -84,7 +79,7 @@ public class Order {
         return sb.toString();
     }
 
-    public int calculateTotalPrice() {
+    public int calculatePriceBeforeDiscount() {
         priceBeforeDiscount = 0;
         for (MenuBoard menu : order.keySet()) {
             int quantity = order.get(menu);
@@ -125,13 +120,11 @@ public class Order {
         }
     }
 
-    public void printAll() {
-        System.out.println(priceBeforeDiscount);
-        System.out.println(priceAfterDiscount);
+    public int getPriceAfterDiscount() {
+        return priceAfterDiscount;
     }
 
-    public int giveawayChampagneCount() {
+    public int getGiveawayChampagneCount() {
         return giveawayChampagne;
     }
-
 }
