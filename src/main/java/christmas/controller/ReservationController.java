@@ -25,6 +25,12 @@ public class ReservationController {
         }
     }
 
+    public OrderMenu orderReceipt() {
+        String order = inputOrder();
+
+        return OrderMenu.createOrderMenu(order);
+    }
+
     public String inputOrder() {
         try {
             outputView.printOrderPrompt();
@@ -34,25 +40,6 @@ public class ReservationController {
             System.out.println(illegalArgumentException.getMessage());
             return inputOrder();
         }
-    }
-
-    public OrderMenu orderReceipt() {
-        String order = inputOrder();
-        List<String> orderMenu = Arrays.stream(order.split(","))
-                .collect(Collectors.toList());
-
-        return new OrderMenu(countMenu(orderMenu));
-    }
-
-    public List<MenuCount> countMenu(List<String> orderMenu) {
-        List<MenuCount> count = new ArrayList<>();
-        for(String order : orderMenu) {
-            String[] menuAndCount = order.split("-");
-
-            MenuCount menuCount = new MenuCount(menuAndCount[0], Integer.parseInt(menuAndCount[1]));
-            count.add(menuCount);
-        }
-        return count;
     }
 
 }

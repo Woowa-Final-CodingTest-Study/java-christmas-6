@@ -50,6 +50,7 @@ public class DiscountController {
         if(Menu.findMenuPrice(gift) != 0) {
             benefitHistory.add(getGiftEventHistory(gift));
         }
+
         return new TotalBenefitHistory(benefitHistory);
     }
 

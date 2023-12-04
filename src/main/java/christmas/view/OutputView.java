@@ -80,5 +80,6 @@ public class OutputView {
     public void printBadgeEvent(String badge) {
         System.out.printf(SystemMessageConstant.BADGE_EVENT, eventMonth, badge);
     }
+
 }
 
