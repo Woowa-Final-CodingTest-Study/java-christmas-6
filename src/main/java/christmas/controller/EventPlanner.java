@@ -3,15 +3,16 @@ package christmas.controller;
 import christmas.domain.MenuType;
 import christmas.view.InputView;
 import christmas.view.OutputView;
+import java.util.Map;
 
 public class EventPlanner {
-    InputView inputView;
+    InputView inputView = new InputView();
+
 
     public void start() {
-        inputView = new InputView();
         introducePlanner();
         int visitDate = enrollVisitDate();
-        enrollOrderMenu();
+        Map<String, Integer> orderMenu = enrollOrderMenu();
     }
 
     public void introducePlanner() {
@@ -24,7 +25,9 @@ public class EventPlanner {
         return inputView.readVisitDate();
     }
 
-    public void enrollOrderMenu() {
+    public Map<String, Integer> enrollOrderMenu() {
         OutputView.printMenu(MenuType.showMenu());
+        OutputView.requestOrderMenu();
+        return inputView.readOrderMenu();
     }
 }
