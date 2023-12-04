@@ -1,42 +1,46 @@
 package christmas.controller;
 
-import christmas.domain.GiftEvent;
 import christmas.domain.OrderMenu;
-import christmas.domain.TotalBenefitHistory;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 
 public class MainController {
 
-    private final OrderMenuController orderMenuController;
+    private final ReservationController reservationController;
     private final EventContentsController eventContentsController;
 
+    OutputView outputView = new OutputView();
+
     public MainController() {
-        orderMenuController = new OrderMenuController();
+        reservationController = new ReservationController();
         eventContentsController = new EventContentsController();
     }
 
-    InputView inputView = new InputView();
-    OutputView outputView = new OutputView();
     public void run() {
+        int visitDate = askForVisitDate();
+        OrderMenu orderMenu = askForOrderMenu();
+
+        displayEventHistory(visitDate, orderMenu);
+    }
+
+    public int askForVisitDate() {
         outputView.printEventPlanner();
-        int visitDate = inputVisitDate();
-        OrderMenu orderMenu = orderMenuController.orderReceipt();
+        int visitDate = reservationController.inputVisitDate();
+
+        return visitDate;
+    }
+
+    public OrderMenu askForOrderMenu() {
+        OrderMenu orderMenu = reservationController.orderReceipt();
+
+        return orderMenu;
+    }
+
+    public void displayEventHistory(int visitDate, OrderMenu orderMenu) {
         outputView.printPreviewEventBenefit(visitDate);
         outputView.printOrderMenu(orderMenu);
 
         eventContentsController.generateEventContents(visitDate, orderMenu);
-    }
-
-    public int inputVisitDate() {
-        try {
-            outputView.printVisitDatePrompt();
-            int visitDate = inputView.inputUserVisitDate();
-            return visitDate;
-        } catch (IllegalArgumentException illegalArgumentException) {
-            System.out.println(illegalArgumentException.getMessage());
-            return inputVisitDate();
-        }
     }
 
 }

@@ -9,10 +9,32 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class OrderMenuController {
+public class ReservationController {
 
     InputView inputView = new InputView();
     OutputView outputView = new OutputView();
+
+    public int inputVisitDate() {
+        try {
+            outputView.printVisitDatePrompt();
+            int visitDate = inputView.inputUserVisitDate();
+            return visitDate;
+        } catch (IllegalArgumentException illegalArgumentException) {
+            System.out.println(illegalArgumentException.getMessage());
+            return inputVisitDate();
+        }
+    }
+
+    public String inputOrder() {
+        try {
+            outputView.printOrderPrompt();
+            String orderMenu = inputView.inputUserOrder();
+            return orderMenu;
+        } catch (IllegalArgumentException illegalArgumentException) {
+            System.out.println(illegalArgumentException.getMessage());
+            return inputOrder();
+        }
+    }
 
     public OrderMenu orderReceipt() {
         String order = inputOrder();
@@ -30,18 +52,7 @@ public class OrderMenuController {
             MenuCount menuCount = new MenuCount(menuAndCount[0], Integer.parseInt(menuAndCount[1]));
             count.add(menuCount);
         }
-
         return count;
     }
 
-    public String inputOrder() {
-        try {
-            outputView.printOrderPrompt();
-            String orderMenu = inputView.inputUserOrder();
-            return orderMenu;
-        } catch (IllegalArgumentException illegalArgumentException) {
-            System.out.println(illegalArgumentException.getMessage());
-            return inputOrder();
-        }
-    }
 }

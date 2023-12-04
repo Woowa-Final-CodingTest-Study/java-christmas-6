@@ -1,7 +1,7 @@
 package christmas.service;
 
 import christmas.constant.Menu;
-import christmas.constant.SystemMessageConstant;
+import christmas.constant.message.SystemMessageConstant;
 import christmas.domain.DiscountHistory;
 import christmas.domain.MenuCount;
 import christmas.domain.OrderMenu;

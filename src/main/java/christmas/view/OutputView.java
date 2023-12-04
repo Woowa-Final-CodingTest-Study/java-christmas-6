@@ -2,11 +2,10 @@ package christmas.view;
 
 import christmas.constant.Menu;
 import christmas.constant.NumberConstant;
-import christmas.constant.SystemMessageConstant;
+import christmas.constant.message.SystemMessageConstant;
 import christmas.domain.DiscountHistory;
 import christmas.domain.MenuCount;
 import christmas.domain.OrderMenu;
-import christmas.domain.TotalBenefitHistory;
 import java.util.List;
 
 public class OutputView {

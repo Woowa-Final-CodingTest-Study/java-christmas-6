@@ -3,7 +3,7 @@ package christmas.controller;
 import christmas.constant.Menu;
 import christmas.constant.SequenceOfWeek;
 import christmas.constant.StarDiscount;
-import christmas.constant.SystemMessageConstant;
+import christmas.constant.message.SystemMessageConstant;
 import christmas.constant.WeekDiscount;
 import christmas.domain.DiscountHistory;
 import christmas.domain.OrderMenu;
@@ -28,7 +28,6 @@ public class DiscountController {
         TotalBenefitHistory totalBenefitHistory = gatherTotalBenefitHistory(visitDate, orderMenu, gift);
         List<DiscountHistory> discountHistories = totalBenefitHistory.getBenefitHistory();
 
-
         for(int i=0; i< totalBenefitHistory.getSize(); i++) {
             DiscountHistory discountHistory = discountHistories.get(i);
             if(discountHistory.getDiscountPrice()!=0) {
@@ -45,21 +44,12 @@ public class DiscountController {
         String discountCategory = WeekDiscount.findByWeekDiscount(sequenceOfDay).getDiscountCategory();
 
         benefitHistory.add(getDdayDiscountHistory(visitDate));
-
-        if(discountCategory.equals(WeekDiscount.WEEKDAY_DISCOUNT.getDiscountCategory())) {
-            benefitHistory.add(getWeekDayDiscountHistory(orderMenu));
-        }
-
-        if(discountCategory.equals(WeekDiscount.WEEKEND_DISCOUNT.getDiscountCategory())) {
-            benefitHistory.add(getWeekendDiscountHistory(orderMenu));
-        }
-
+        benefitHistory.add(getWeekDiscountHistory(discountCategory, orderMenu));
         benefitHistory.add(getSpecialDiscountHistory(visitDate));
 
         if(Menu.findMenuPrice(gift) != 0) {
             benefitHistory.add(getGiftEventHistory(gift));
         }
-
         return new TotalBenefitHistory(benefitHistory);
     }
 
@@ -67,6 +57,13 @@ public class DiscountController {
         int totalDdayDiscount = ddayDiscount.calculateDdayDiscount(visitDate);
 
         return new DiscountHistory(SystemMessageConstant.DDAY_DISCOUNT_CATEGORY, totalDdayDiscount);
+    }
+
+    public DiscountHistory getWeekDiscountHistory(String discountCategory, OrderMenu orderMenu) {
+        if(discountCategory.equals(WeekDiscount.WEEKDAY_DISCOUNT.getDiscountMenuCategory())) {
+            return getWeekDayDiscountHistory(orderMenu);
+        }
+        return getWeekendDiscountHistory(orderMenu);
     }
 
     public DiscountHistory getWeekDayDiscountHistory(OrderMenu orderMenu) {

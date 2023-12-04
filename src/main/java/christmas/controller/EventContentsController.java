@@ -28,6 +28,7 @@ public class EventContentsController {
         int totalPrice = getTotalPriceBeforeDiscount(orderMenu);
         String gift = getGiftEventHistory(totalPrice);
         List<DiscountHistory> discountHistories = getTotalBenefitHistory(visitDate, orderMenu, gift);
+
         if(totalPrice < NumberConstant.MIN_EVENT_PRICE) {
             discountHistories.removeAll(discountHistories);
             discountHistories.add(new DiscountHistory(Menu.NOTHING.getMenuName(), Menu.NOTHING.getPrice()));
