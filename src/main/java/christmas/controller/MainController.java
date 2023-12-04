@@ -1,7 +1,6 @@
 package christmas.controller;
 
-import christmas.domain.OrderMenu;
-import christmas.view.InputView;
+import christmas.domain.OrderMenuRepository;
 import christmas.view.OutputView;
 
 public class MainController {
@@ -18,9 +17,9 @@ public class MainController {
 
     public void run() {
         int visitDate = askForVisitDate();
-        OrderMenu orderMenu = askForOrderMenu();
+        OrderMenuRepository orderMenuRepository = askForOrderMenu();
 
-        displayEventHistory(visitDate, orderMenu);
+        displayEventHistory(visitDate, orderMenuRepository);
     }
 
     public int askForVisitDate() {
@@ -30,17 +29,17 @@ public class MainController {
         return visitDate;
     }
 
-    public OrderMenu askForOrderMenu() {
-        OrderMenu orderMenu = reservationController.orderReceipt();
+    public OrderMenuRepository askForOrderMenu() {
+        OrderMenuRepository orderMenuRepository = reservationController.orderReceipt();
 
-        return orderMenu;
+        return orderMenuRepository;
     }
 
-    public void displayEventHistory(int visitDate, OrderMenu orderMenu) {
+    public void displayEventHistory(int visitDate, OrderMenuRepository orderMenuRepository) {
         outputView.printPreviewEventBenefit(visitDate);
-        outputView.printOrderMenu(orderMenu);
+        outputView.printOrderMenu(orderMenuRepository);
 
-        eventContentsController.generateEventContents(visitDate, orderMenu);
+        eventContentsController.generateEventContents(visitDate, orderMenuRepository);
     }
 
 }

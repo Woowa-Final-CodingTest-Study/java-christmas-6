@@ -1,6 +1,6 @@
 package christmas.controller;
 
-import christmas.domain.OrderMenu;
+import christmas.domain.OrderMenuRepository;
 import christmas.service.Calculator;
 import christmas.view.OutputView;
 
@@ -9,8 +9,8 @@ public class TotalPriceController {
     Calculator calculator = new Calculator();
     OutputView outputView = new OutputView();
 
-    public int getTotalPrice(OrderMenu orderMenu) {
-        int totalPriceBeforeDiscount = calculator.calculateTotalPrice(orderMenu);
+    public int getTotalPrice(OrderMenuRepository orderMenuRepository) {
+        int totalPriceBeforeDiscount = calculator.calculateTotalPrice(orderMenuRepository);
         outputView.printTotalPrice(totalPriceBeforeDiscount);
 
         return totalPriceBeforeDiscount;

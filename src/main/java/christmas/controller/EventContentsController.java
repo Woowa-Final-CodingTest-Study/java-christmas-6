@@ -4,7 +4,7 @@ import christmas.constant.Badge;
 import christmas.constant.Menu;
 import christmas.constant.NumberConstant;
 import christmas.domain.DiscountHistory;
-import christmas.domain.OrderMenu;
+import christmas.domain.OrderMenuRepository;
 import christmas.service.Calculator;
 import christmas.view.OutputView;
 import java.util.ArrayList;
@@ -24,10 +24,10 @@ public class EventContentsController {
     OutputView outputView = new OutputView();
     Calculator calculator = new Calculator();
 
-    public void generateEventContents(int visitDate, OrderMenu orderMenu) {
-        int totalPrice = getTotalPriceBeforeDiscount(orderMenu);
+    public void generateEventContents(int visitDate, OrderMenuRepository orderMenuRepository) {
+        int totalPrice = getTotalPriceBeforeDiscount(orderMenuRepository);
         String gift = getGiftEventHistory(totalPrice);
-        List<DiscountHistory> discountHistories = getTotalBenefitHistory(visitDate, orderMenu, gift);
+        List<DiscountHistory> discountHistories = getTotalBenefitHistory(visitDate, orderMenuRepository, gift);
 
         if(totalPrice < NumberConstant.MIN_EVENT_PRICE) {
             discountHistories.removeAll(discountHistories);
@@ -38,9 +38,9 @@ public class EventContentsController {
         generateBadgeEvent(discountHistories);
     }
 
-    public int getTotalPriceBeforeDiscount(OrderMenu orderMenu) {
+    public int getTotalPriceBeforeDiscount(OrderMenuRepository orderMenuRepository) {
 
-        return totalPriceController.getTotalPrice(orderMenu);
+        return totalPriceController.getTotalPrice(orderMenuRepository);
     }
 
     public String getGiftEventHistory(int totalPrice) {
@@ -48,12 +48,13 @@ public class EventContentsController {
         return giftEventController.getGift(totalPrice);
     }
 
-    public List<DiscountHistory> getTotalBenefitHistory(int visitDate, OrderMenu orderMenu, String gift) {
+    public List<DiscountHistory> getTotalBenefitHistory(int visitDate, OrderMenuRepository orderMenuRepository, String gift) {
         outputView.printTotalBenefitHistory();
-        int totalPrice = calculator.calculateTotalPrice(orderMenu);
+        int totalPrice = calculator.calculateTotalPrice(orderMenuRepository);
 
         if(totalPrice >= NumberConstant.MIN_EVENT_PRICE) {
-            List<DiscountHistory> discountHistories = discountController.generateTotalBenefitHistory(visitDate, orderMenu, gift);
+            List<DiscountHistory> discountHistories = discountController.generateTotalBenefitHistory(visitDate,
+                    orderMenuRepository, gift);
             generateTotalDiscount(discountHistories);
 
             return discountHistories;

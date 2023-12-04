@@ -1,13 +1,8 @@
 package christmas.controller;
 
-import christmas.domain.MenuCount;
-import christmas.domain.OrderMenu;
+import christmas.domain.OrderMenuRepository;
 import christmas.view.InputView;
 import christmas.view.OutputView;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class ReservationController {
 
@@ -25,10 +20,10 @@ public class ReservationController {
         }
     }
 
-    public OrderMenu orderReceipt() {
+    public OrderMenuRepository orderReceipt() {
         String order = inputOrder();
 
-        return OrderMenu.createOrderMenu(order);
+        return OrderMenuRepository.createOrderMenu(order);
     }
 
     public String inputOrder() {

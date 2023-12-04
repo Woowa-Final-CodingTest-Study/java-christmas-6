@@ -6,8 +6,8 @@ import christmas.constant.StarDiscount;
 import christmas.constant.message.SystemMessageConstant;
 import christmas.constant.WeekDiscount;
 import christmas.domain.DiscountHistory;
-import christmas.domain.OrderMenu;
-import christmas.domain.TotalBenefitHistory;
+import christmas.domain.OrderMenuRepository;
+import christmas.domain.BenefitHistoryRepository;
 import christmas.domain.discount.DdayDiscount;
 import christmas.domain.discount.SpecialDiscount;
 import christmas.domain.discount.WeekDayDiscount;
@@ -24,11 +24,11 @@ public class DiscountController {
     SpecialDiscount specialDiscount = new SpecialDiscount();
     OutputView outputView = new OutputView();
 
-    public List<DiscountHistory> generateTotalBenefitHistory(int visitDate, OrderMenu orderMenu, String gift) {
-        TotalBenefitHistory totalBenefitHistory = gatherTotalBenefitHistory(visitDate, orderMenu, gift);
-        List<DiscountHistory> discountHistories = totalBenefitHistory.getBenefitHistory();
+    public List<DiscountHistory> generateTotalBenefitHistory(int visitDate, OrderMenuRepository orderMenuRepository, String gift) {
+        BenefitHistoryRepository benefitHistoryRepository = gatherTotalBenefitHistory(visitDate, orderMenuRepository, gift);
+        List<DiscountHistory> discountHistories = benefitHistoryRepository.getBenefitHistory();
 
-        for(int i=0; i< totalBenefitHistory.getSize(); i++) {
+        for(int i = 0; i< benefitHistoryRepository.getSize(); i++) {
             DiscountHistory discountHistory = discountHistories.get(i);
             if(discountHistory.getDiscountPrice()!=0) {
                 outputView.printBenefitHistory(discountHistory);
@@ -37,21 +37,21 @@ public class DiscountController {
         return discountHistories;
     }
 
-    public TotalBenefitHistory gatherTotalBenefitHistory(int visitDate, OrderMenu orderMenu, String gift) {
+    public BenefitHistoryRepository gatherTotalBenefitHistory(int visitDate, OrderMenuRepository orderMenuRepository, String gift) {
         List<DiscountHistory> benefitHistory = new ArrayList<>();
 
         int sequenceOfDay = SequenceOfWeek.calculateSequenceOfDay(visitDate);
         String discountCategory = WeekDiscount.findByWeekDiscount(sequenceOfDay).getDiscountCategory();
 
         benefitHistory.add(getDdayDiscountHistory(visitDate));
-        benefitHistory.add(getWeekDiscountHistory(discountCategory, orderMenu));
+        benefitHistory.add(getWeekDiscountHistory(discountCategory, orderMenuRepository));
         benefitHistory.add(getSpecialDiscountHistory(visitDate));
 
         if(Menu.findMenuPrice(gift) != 0) {
             benefitHistory.add(getGiftEventHistory(gift));
         }
 
-        return new TotalBenefitHistory(benefitHistory);
+        return new BenefitHistoryRepository(benefitHistory);
     }
 
     public DiscountHistory getDdayDiscountHistory(int visitDate) {
@@ -60,21 +60,21 @@ public class DiscountController {
         return new DiscountHistory(SystemMessageConstant.DDAY_DISCOUNT_CATEGORY, totalDdayDiscount);
     }
 
-    public DiscountHistory getWeekDiscountHistory(String discountCategory, OrderMenu orderMenu) {
+    public DiscountHistory getWeekDiscountHistory(String discountCategory, OrderMenuRepository orderMenuRepository) {
         if(discountCategory.equals(WeekDiscount.WEEKDAY_DISCOUNT.getDiscountMenuCategory())) {
-            return getWeekDayDiscountHistory(orderMenu);
+            return getWeekDayDiscountHistory(orderMenuRepository);
         }
-        return getWeekendDiscountHistory(orderMenu);
+        return getWeekendDiscountHistory(orderMenuRepository);
     }
 
-    public DiscountHistory getWeekDayDiscountHistory(OrderMenu orderMenu) {
-        int totalWeekDayDiscount = weekDayDiscount.calculateWeekDayDiscount(orderMenu);
+    public DiscountHistory getWeekDayDiscountHistory(OrderMenuRepository orderMenuRepository) {
+        int totalWeekDayDiscount = weekDayDiscount.calculateWeekDayDiscount(orderMenuRepository);
 
         return new DiscountHistory(WeekDiscount.WEEKDAY_DISCOUNT.getDiscountCategory(), totalWeekDayDiscount);
     }
 
-    public DiscountHistory getWeekendDiscountHistory(OrderMenu orderMenu) {
-        int totalWeekendDiscount = weekendDiscount.calculateWeekendDiscount(orderMenu);
+    public DiscountHistory getWeekendDiscountHistory(OrderMenuRepository orderMenuRepository) {
+        int totalWeekendDiscount = weekendDiscount.calculateWeekendDiscount(orderMenuRepository);
 
         return new DiscountHistory(WeekDiscount.WEEKEND_DISCOUNT.getDiscountCategory(), totalWeekendDiscount);
     }

@@ -4,8 +4,8 @@ import christmas.constant.Menu;
 import christmas.constant.NumberConstant;
 import christmas.constant.message.SystemMessageConstant;
 import christmas.domain.DiscountHistory;
-import christmas.domain.MenuCount;
-import christmas.domain.OrderMenu;
+import christmas.domain.MenuOrder;
+import christmas.domain.OrderMenuRepository;
 import java.util.List;
 
 public class OutputView {
@@ -28,12 +28,12 @@ public class OutputView {
         System.out.printf(SystemMessageConstant.PREVIEW_BENEFIT, eventMonth, date);
     }
 
-    public void printOrderMenu(OrderMenu orderMenu) {
+    public void printOrderMenu(OrderMenuRepository orderMenuRepository) {
         System.out.println(SystemMessageConstant.ORDER_MENU);
 
-        List<MenuCount> order = orderMenu.getOrderMenu();
+        List<MenuOrder> order = orderMenuRepository.getOrderMenu();
 
-        for(int i=0; i<orderMenu.getSize(); i++) {
+        for(int i = 0; i< orderMenuRepository.getSize(); i++) {
             System.out.printf(SystemMessageConstant.ORDER_MENU_RECEIPT, order.get(i).getMenuName(), order.get(i).getCount());
         }
     }

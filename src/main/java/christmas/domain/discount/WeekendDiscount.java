@@ -2,19 +2,19 @@ package christmas.domain.discount;
 
 import christmas.constant.MenuCategory;
 import christmas.constant.WeekDiscount;
-import christmas.domain.MenuCount;
-import christmas.domain.OrderMenu;
+import christmas.domain.MenuOrder;
+import christmas.domain.OrderMenuRepository;
 import java.util.List;
 
 public class WeekendDiscount {
 
-    public int calculateWeekendDiscount(OrderMenu orderMenu) {
-        List<MenuCount> menuCount = orderMenu.getOrderMenu();
+    public int calculateWeekendDiscount(OrderMenuRepository orderMenuRepository) {
+        List<MenuOrder> menuOrder = orderMenuRepository.getOrderMenu();
 
         int weekendDiscount = 0;
 
-        for(int i=0; i<orderMenu.getSize(); i++) {
-            MenuCount menu = menuCount.get(i);
+        for(int i = 0; i< orderMenuRepository.getSize(); i++) {
+            MenuOrder menu = menuOrder.get(i);
             weekendDiscount += calculateWeekendDiscountMenuPrice(menu.getMenuName()) * menu.getCount();
         }
 

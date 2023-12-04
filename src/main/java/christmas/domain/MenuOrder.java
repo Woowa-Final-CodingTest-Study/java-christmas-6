@@ -1,11 +1,11 @@
 package christmas.domain;
 
-public class MenuCount {
+public class MenuOrder {
 
     private final String menuName;
     private final int count;
 
-    public MenuCount(String menuName, int count) {
+    public MenuOrder(String menuName, int count) {
         this.menuName = menuName;
         this.count = count;
     }

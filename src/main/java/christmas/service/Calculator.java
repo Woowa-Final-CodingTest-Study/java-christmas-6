@@ -3,26 +3,26 @@ package christmas.service;
 import christmas.constant.Menu;
 import christmas.constant.message.SystemMessageConstant;
 import christmas.domain.DiscountHistory;
-import christmas.domain.MenuCount;
-import christmas.domain.OrderMenu;
+import christmas.domain.MenuOrder;
+import christmas.domain.OrderMenuRepository;
 import java.util.List;
 
 public class Calculator {
 
-    public int calculateTotalPrice(OrderMenu orderMenu) {
-        List<MenuCount> menuCounts = orderMenu.getOrderMenu();
+    public int calculateTotalPrice(OrderMenuRepository orderMenuRepository) {
+        List<MenuOrder> menuOrders = orderMenuRepository.getOrderMenu();
         int totalPrice = 0;
 
-        for(int i=0; i< orderMenu.getSize(); i++) {
-            totalPrice += calculateMenuPrice(menuCounts.get(i));
+        for(int i = 0; i< orderMenuRepository.getSize(); i++) {
+            totalPrice += calculateMenuPrice(menuOrders.get(i));
         }
 
         return totalPrice;
     }
 
-    private int calculateMenuPrice(MenuCount menuCount) {
-        String menuName = menuCount.getMenuName();
-        int menuPrice = menuCount.getCount();
+    private int calculateMenuPrice(MenuOrder menuOrder) {
+        String menuName = menuOrder.getMenuName();
+        int menuPrice = menuOrder.getCount();
         return Menu.findMenuPrice(menuName) * menuPrice;
     }
 
