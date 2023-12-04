@@ -26,10 +26,6 @@ public enum StarDiscount {
         return discountPrice;
     }
 
-    public List<Integer> getDiscountDay() {
-        return discountDay;
-    }
-
     public static StarDiscount findBySpecialDiscount(int visitDate) {
         return Arrays.stream(StarDiscount.values())
                 .filter(date -> date.hasStar(visitDate))

@@ -38,10 +38,6 @@ public enum WeekDiscount {
         return discountPrice;
     }
 
-    public List<Integer> getSequenceOfWeek() {
-        return sequenceOfWeek;
-    }
-
     public static WeekDiscount findByWeekDiscount(int sequenceOfWeek) {
         return Arrays.stream(WeekDiscount.values())
                 .filter(weekDiscount -> weekDiscount.hasSequenceOfWeek(sequenceOfWeek))
@@ -51,6 +47,6 @@ public enum WeekDiscount {
 
     public boolean hasSequenceOfWeek(int sequence) {
         return sequenceOfWeek.stream()
-                .anyMatch(number -> number==sequence);
+                .anyMatch(number -> number == sequence);
     }
 }

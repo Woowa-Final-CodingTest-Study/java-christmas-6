@@ -16,33 +16,33 @@ public class EventContentsController {
     private final GiftEventController giftEventController;
     private final DiscountController discountController;
 
+    OutputView outputView = new OutputView();
+    Calculator calculator = new Calculator();
+
     public EventContentsController() {
         totalPriceController = new TotalPriceController();
         giftEventController = new GiftEventController();
         discountController = new DiscountController();
     }
 
-    OutputView outputView = new OutputView();
-    Calculator calculator = new Calculator();
-
     public void generateEventContents(int visitDate, OrderMenuRepository orderMenuRepository) {
         int totalPrice = getTotalPriceBeforeDiscount(orderMenuRepository);
         String gift = getGiftEventHistory(totalPrice);
         List<DiscountHistory> discountHistories = getTotalBenefitHistory(visitDate, orderMenuRepository, gift);
 
-        checkResetDiscountHistory(totalPrice, discountHistories);
+        checkResetDiscountHistory(totalPrice);
 
         generateTotalDiscount(discountHistories);
         generateTotalPay(totalPrice, discountHistories);
         generateBadgeEvent(discountHistories);
     }
 
-    public void checkResetDiscountHistory(int totalPrice, List<DiscountHistory> discountHistories) {
+    public void checkResetDiscountHistory(int totalPrice) {
         if(!isEligibleEvent(totalPrice)) {
-            discountHistories = new ArrayList<>();
+            List<DiscountHistory> discountHistories = new ArrayList<>();
             discountHistories.add(new DiscountHistory(Menu.NOTHING.getMenuName(), Menu.NOTHING.getPrice()));
+            outputView.printNoBenefitHistory();
         }
-        outputView.printNoBenefitHistory();
     }
 
     public boolean isEligibleEvent(int totalPrice) {

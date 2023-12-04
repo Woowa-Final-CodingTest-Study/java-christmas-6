@@ -28,9 +28,8 @@ public class Calculator {
 
     public int calculateTotalDiscount(List<DiscountHistory> discountHistories) {
         int totalDiscount = 0;
-        for(int i=0; i< discountHistories.size(); i++) {
-            DiscountHistory discountHistory = discountHistories.get(i);
-            if(discountHistory.getDiscountPrice()!=0) {
+        for (DiscountHistory discountHistory : discountHistories) {
+            if (discountHistory.getDiscountPrice() != 0) {
                 totalDiscount += discountHistory.getDiscountPrice();
             }
         }
@@ -39,9 +38,8 @@ public class Calculator {
 
     public int calculateTotalPay(int totalPrice, List<DiscountHistory> discountHistories) {
         int discount = 0;
-        for(int i=0; i<discountHistories.size(); i++) {
-            DiscountHistory discountHistory = discountHistories.get(i);
-            if(discountHistory.getDiscountPrice()!=0 &&
+        for (DiscountHistory discountHistory : discountHistories) {
+            if (discountHistory.getDiscountPrice() != 0 &&
                     !discountHistory.getDiscountCategory().equals(SystemMessageConstant.GIFT_EVENT)) {
                 discount += discountHistory.getDiscountPrice();
             }
