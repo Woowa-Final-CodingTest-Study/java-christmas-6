@@ -1,4 +1,4 @@
-package christmas;
+package christmas.domain.controller;
 
 import static christmas.constants.GameMessage.ASK_ORDER_MESSAGE;
 import static christmas.constants.GameMessage.ASK_VISITING_DATE_MESSAGE;
