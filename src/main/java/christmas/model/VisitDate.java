@@ -5,8 +5,8 @@ import java.util.List;
 
 public class VisitDate {
     private static final List<DayOfWeek> weekend = List.of(DayOfWeek.FRIDAY, DayOfWeek.SATURDAY);
+    public static final int CHRISTMAS = 25;
     private static final List<Integer> specialDate = List.of(3, 10, 17, 24, 25, 31);
-
     private final int visitDate;
 
     public VisitDate(int visitDate) {

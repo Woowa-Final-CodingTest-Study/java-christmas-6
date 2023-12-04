@@ -12,4 +12,3 @@ public class ErrorMessage {
     public static final String ORDER_ONLY_BEVERAGE = "유효하지 않은 주문입니다. 다시 입력해 주세요.";
     public static final String MENU_COUNT_NOT_NUMBER = "유효하지 않은 주문입니다. 다시 입력해 주세요.";
 }
-

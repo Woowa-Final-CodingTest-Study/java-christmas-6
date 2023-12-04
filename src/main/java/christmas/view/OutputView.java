@@ -5,13 +5,10 @@ import christmas.model.Badge;
 import christmas.model.Benefit;
 import christmas.model.Order;
 import christmas.model.VisitDate;
-import christmas.util.CustomFormat;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.List;
 
-import static christmas.util.CustomFormat.*;
+import static christmas.util.CustomFormat.currencyFormat;
 
 public class OutputView {
     private static OutputView outputView;

@@ -14,23 +14,31 @@ public class Benefit {
     private static final String weekday = "평일 할인";
     private static final String special = "특별 할인";
     private static final String gift = "증정 이벤트";
+    private static final int D_DAY_DISCOUNT_INIT = 1000;
+    private static final int D_DAY_DISCOUNT_UNIT = 100;
+    private static final int WEEKEND_DISCOUNT = 2023;
+    private static final int WEEKDAY_DISCOUNT = 2023;
+    private static final int SPECIAL_DISCOUNT = 2023;
+    private static final int GIFT_THRESHOLD = 120000;
+    private static final String GIFT_MENU = "샴페인";
+
 
     public Benefit(VisitDate visitDate, Order order) {
-        if (visitDate.value() <= 25)
-            add(christmas, 900 + 100 * visitDate.value());
+        if (visitDate.value() <= VisitDate.CHRISTMAS)
+            add(christmas, D_DAY_DISCOUNT_INIT + D_DAY_DISCOUNT_UNIT * visitDate.value());
         if (visitDate.isWeekend()) {
             int count = order.getCountOf(Category.MAIN_DISH);
             if (count > 0)
-                add(weekend, count * 2023);
+                add(weekend, count * WEEKEND_DISCOUNT);
         } else {
             int count = order.getCountOf(Category.DESSERT);
             if (count > 0)
-                add(weekday, count * 2023);
+                add(weekday, count * WEEKDAY_DISCOUNT);
         }
         if (visitDate.isSpecialDate())
-            add(special, 1000);
-        if (order.getTotalCost() >= 120000)
-            add(gift, Menu.get("샴페인").price);
+            add(special, SPECIAL_DISCOUNT);
+        if (order.getTotalCost() >= GIFT_THRESHOLD)
+            add(gift, Menu.get(GIFT_MENU).price);
     }
 
     private void add(String name, int amount) {
