@@ -24,6 +24,15 @@ public enum Menu {
         this.price = price;
     }
 
+    public static Menu getMenuByName(String name) {
+        for (Menu menu : Menu.values()) {
+            if (menu.name.equals(name)) {
+                return menu;
+            }
+        }
+        throw new IllegalArgumentException("Invalid menu name: " + name);
+    }
+
     public static String showMenuInfos(Menu menu) {
         return menu.name + "(" + Calculation.showMoneyWithComma(menu.price) + ")";
     }
