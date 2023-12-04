@@ -9,12 +9,10 @@ import java.util.List;
 public class WeekendDiscount {
 
     public int calculateWeekendDiscount(OrderMenuRepository orderMenuRepository) {
-        List<MenuOrder> menuOrder = orderMenuRepository.getOrderMenu();
-
+        List<MenuOrder> menuOrders = orderMenuRepository.getOrderMenu();
         int weekendDiscount = 0;
 
-        for(int i = 0; i< orderMenuRepository.getSize(); i++) {
-            MenuOrder menu = menuOrder.get(i);
+        for(MenuOrder menu : menuOrders) {
             weekendDiscount += calculateWeekendDiscountMenuPrice(menu.getMenuName()) * menu.getCount();
         }
 

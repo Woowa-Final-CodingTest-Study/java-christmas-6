@@ -13,37 +13,35 @@ public class Calculator {
         List<MenuOrder> menuOrders = orderMenuRepository.getOrderMenu();
         int totalPrice = 0;
 
-        for(int i = 0; i< orderMenuRepository.getSize(); i++) {
-            totalPrice += calculateMenuPrice(menuOrders.get(i));
+        for(MenuOrder menuOrder : menuOrders) {
+            totalPrice += calculateMenuPrice(menuOrder);
         }
 
         return totalPrice;
     }
 
-    private int calculateMenuPrice(MenuOrder menuOrder) {
+    public int calculateMenuPrice(MenuOrder menuOrder) {
         String menuName = menuOrder.getMenuName();
         int menuPrice = menuOrder.getCount();
         return Menu.findMenuPrice(menuName) * menuPrice;
     }
 
     public int calculateTotalDiscount(List<DiscountHistory> discountHistories) {
-        int totalDiscount = 0;
-        for (DiscountHistory discountHistory : discountHistories) {
-            if (discountHistory.getDiscountPrice() != 0) {
-                totalDiscount += discountHistory.getDiscountPrice();
-            }
-        }
+        int totalDiscount = discountHistories.stream()
+                .filter(discountHistory -> discountHistory.getDiscountPrice() != 0)
+                .mapToInt(DiscountHistory::getDiscountPrice)
+                .sum();
+
         return totalDiscount;
     }
 
     public int calculateTotalPay(int totalPrice, List<DiscountHistory> discountHistories) {
-        int discount = 0;
-        for (DiscountHistory discountHistory : discountHistories) {
-            if (discountHistory.getDiscountPrice() != 0 &&
-                    !discountHistory.getDiscountCategory().equals(SystemMessageConstant.GIFT_EVENT)) {
-                discount += discountHistory.getDiscountPrice();
-            }
-        }
+        int discount = discountHistories.stream()
+                .filter(discountHistory -> discountHistory.getDiscountPrice() != 0 &&
+                        !discountHistory.getDiscountCategory().equals((SystemMessageConstant.GIFT_EVENT)))
+                .mapToInt(DiscountHistory::getDiscountPrice)
+                .sum();
+
         return totalPrice - discount;
     }
 }

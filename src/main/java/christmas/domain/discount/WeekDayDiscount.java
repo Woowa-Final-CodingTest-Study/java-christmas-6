@@ -13,8 +13,7 @@ public class WeekDayDiscount {
 
         int weekDayDiscount = 0;
 
-        for(int i = 0; i< orderMenuRepository.getSize(); i++) {
-            MenuOrder menu = menuOrder.get(i);
+        for(MenuOrder menu : menuOrder) {
             weekDayDiscount += calculateWeekDayDiscountMenuPrice(menu.getMenuName()) * menu.getCount();
         }
 

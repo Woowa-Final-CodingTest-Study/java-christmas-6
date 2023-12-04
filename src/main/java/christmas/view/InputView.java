@@ -37,7 +37,7 @@ public class InputView {
         validateCount(input);
     }
 
-    private int validateInputDate(String input) {
+    public int validateInputDate(String input) {
         validateNull(input);
         int date = validateNumeric(input);
         validateDate(date);
@@ -45,13 +45,13 @@ public class InputView {
         return date;
     }
 
-    private void validateNull(String input) {
+    public void validateNull(String input) {
         if(input.isEmpty()) {
             throw new IllegalArgumentException(INVALID_DATE_ERROR_MESSAGE);
         }
     }
 
-    private int validateNumeric(String input) {
+    public int validateNumeric(String input) {
         try {
             return Integer.parseInt(input);
         } catch(IllegalArgumentException illegalArgumentException) {
@@ -59,7 +59,7 @@ public class InputView {
         }
     }
 
-    private void validateDate(int date) {
+    public void validateDate(int date) {
         Calendar cal = Calendar.getInstance();
         cal.set(NumberConstant.EVENT_YEAR, NumberConstant.EVENT_MONTH-1, 1);
 
@@ -70,21 +70,21 @@ public class InputView {
         }
     }
 
-    private void validateCorrectForm(String input) {
+    public void validateCorrectForm(String input) {
         String deleteCharacters = input.replaceAll("[가-힣0-9,-]", "");
         if(!deleteCharacters.isEmpty()) {
             throw new IllegalArgumentException(INVALID_ORDER_ERROR_MESSAGE);
         }
     }
 
-    private void validateMenu(String input) {
+    public void validateMenu(String input) {
         String[] order = input.replaceAll("[0-9-]", "").split(",");
 
         validateContainMenu(order);
         validateDuplicateMenu(order);
     }
 
-    private void validateContainMenu(String[] order) {
+    public void validateContainMenu(String[] order) {
         for(String menu : order) {
             if(!Menu.containMenu(menu)) {
                 throw new IllegalArgumentException(INVALID_ORDER_ERROR_MESSAGE);
@@ -92,7 +92,7 @@ public class InputView {
         }
     }
 
-    private void validateDuplicateMenu(String[] order) {
+    public void validateDuplicateMenu(String[] order) {
         Set<String> duplicateSet= new HashSet<>();
         for(String menu : order) {
             if(!duplicateSet.add(menu)) {
@@ -101,7 +101,7 @@ public class InputView {
         }
     }
 
-    private void validateOnlyBeverage(String input) {
+    public void validateOnlyBeverage(String input) {
         List<String> beverageMenu = MenuCategory.getMenuInCategory(MenuCategory.BEVERAGE);
         String[] inputValue = input.split(",");
 
@@ -112,17 +112,16 @@ public class InputView {
             }
         }
         throw new IllegalArgumentException(INVALID_ORDER_ERROR_MESSAGE);
-
     }
 
-    private void validateCount(String input) {
+    public void validateCount(String input) {
         String[] deleteExceptNumber = input.replaceAll("[가-힣-]", "").split(",");
 
         validateOrderCount(deleteExceptNumber);
         validateOrderCountSum(deleteExceptNumber);
     }
 
-    private void validateOrderCount(String[] deleteExceptNumber) {
+    public void validateOrderCount(String[] deleteExceptNumber) {
         for(String number : deleteExceptNumber) {
             int count = Integer.parseInt(number);
 
@@ -132,12 +131,12 @@ public class InputView {
         }
     }
 
-    private void validateOrderCountSum(String[] deleteExceptNumber) {
+    public void validateOrderCountSum(String[] deleteExceptNumber) {
         int sum = Arrays.stream(deleteExceptNumber)
                 .mapToInt(Integer::parseInt)
                 .sum();
 
-        if(sum < NumberConstant.MIN_ORDER_COUNT || sum > NumberConstant.MAX_ORDER_COUNT) {
+        if(sum > NumberConstant.MAX_ORDER_COUNT) {
             throw new IllegalArgumentException(INVALID_ORDER_ERROR_MESSAGE);
         }
     }
