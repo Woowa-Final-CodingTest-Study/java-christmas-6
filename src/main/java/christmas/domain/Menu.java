@@ -1,5 +1,7 @@
 package christmas.domain;
 
+import christmas.utils.Calculation;
+
 public enum Menu {
     MUSHROOM_SOUP("양송이수프", 6000),
     TAPAS("타파스", 5500),
@@ -20,5 +22,9 @@ public enum Menu {
     Menu(String name, int price) {
         this.name = name;
         this.price = price;
+    }
+
+    public static String showMenuInfos(Menu menu) {
+        return menu.name + "(" + Calculation.showMoneyWithComma(menu.price) + ")";
     }
 }
