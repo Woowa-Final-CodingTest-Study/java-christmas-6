@@ -1,6 +1,6 @@
 package christmas.controller;
 
-import christmas.domain.GiftEvent;
+import christmas.domain.event.GiftEvent;
 import christmas.view.OutputView;
 
 public class GiftEventController {

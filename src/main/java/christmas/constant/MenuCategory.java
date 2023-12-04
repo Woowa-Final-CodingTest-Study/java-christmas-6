@@ -10,7 +10,7 @@ public enum MenuCategory {
             Menu.CHRISTMAS_PASTA.getMenuName())),
     DESSERT(Arrays.asList(Menu.CHOCOLATE_CAKE.getMenuName(), Menu.ICE_CREAM.getMenuName())),
     BEVERAGE(Arrays.asList(Menu.ZERO_COLA.getMenuName(), Menu.RED_WHINE.getMenuName(), Menu.CHAMPAGNE.getMenuName())),
-    EMPTY(Collections.EMPTY_LIST);
+    EMPTY(Collections.emptyList());
 
     private final List<String> menu;
 

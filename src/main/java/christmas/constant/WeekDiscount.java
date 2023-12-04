@@ -11,7 +11,7 @@ public enum WeekDiscount {
                     SequenceOfWeek.SUNDAY.getSequenceOfWeek())),
     WEEKEND_DISCOUNT("주말 할인", MenuCategory.MAIN.name(), 2023,
             Arrays.asList(SequenceOfWeek.FRIDAY.getSequenceOfWeek(), SequenceOfWeek.SATURDAY.getSequenceOfWeek())),
-    EMPTY("없음", MenuCategory.EMPTY.name(), 0, Collections.EMPTY_LIST);
+    EMPTY("없음", MenuCategory.EMPTY.name(), 0, Collections.emptyList());
 
     private final String discountCategory;
     private final String discountMenuCategory;
