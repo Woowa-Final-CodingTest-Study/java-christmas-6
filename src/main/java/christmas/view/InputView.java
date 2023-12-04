@@ -16,8 +16,8 @@ public class InputView {
         return inputView;
     }
 
-    public void printError(String message) {
-        System.out.println(ErrorMessage.PREFIX + message);
+    public void printError(Exception e) {
+        System.out.println(ErrorMessage.PREFIX + e.getMessage());
     }
 
     public String readVisitDate() {
@@ -25,16 +25,18 @@ public class InputView {
             try {
                 String input = Console.readLine();
                 int visitDate = Integer.parseInt(input);
-                validateRange(visitDate);
+                validateVisitDateRange(visitDate);
                 return input;
+            } catch (NumberFormatException e) {
+                printError(new IllegalArgumentException(ErrorMessage.VISIT_DATE_MUST_NUMBER));
             } catch (IllegalArgumentException e) {
-                printError(ErrorMessage.VISIT_DATE_MUST_WITHIN_RANGE);
+                printError(e);
             }
         }
     }
 
-    private void validateRange(int visitDate) {
+    private void validateVisitDateRange(int visitDate) {
         if (visitDate < 1 || visitDate > 31)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ErrorMessage.VISIT_DATE_MUST_WITHIN_RANGE);
     }
 }

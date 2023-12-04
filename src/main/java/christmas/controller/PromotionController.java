@@ -25,6 +25,6 @@ public class PromotionController {
         outputView.notifyInputVisitDate();
         String visitDate = inputView.readVisitDate();
 
-        
+
     }
 }
