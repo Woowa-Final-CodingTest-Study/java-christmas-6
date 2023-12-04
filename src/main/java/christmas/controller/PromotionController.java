@@ -20,4 +20,9 @@ public class PromotionController {
         }
         return promotionController;
     }
+
+    public void start() {
+        outputView.notifyInputVisitDate();
+        String visitDate = inputView.readVisitDate();
+    }
 }
