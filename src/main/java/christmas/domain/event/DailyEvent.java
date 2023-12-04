@@ -15,26 +15,44 @@ public class DailyEvent implements Event {
         VisitingDate visitingDate = context.getVisitingDate();
         Order order = context.getOrder();
         int discount = 0;
-        if (order.isPriceForEveryEvents()) {
-            if (visitingDate.isWeekend()) {
-                HashMap<MenuBoard, Integer> map = order.getOrder();
-                for (MenuBoard menu : map.keySet()) {
-                    if (menu.getType() == MenuType.MAIN) {
-                        int quantity = map.get(menu);
-                        discount -= MAIN_DISCOUNT * quantity;
-                    }
-                }
+
+        if (!order.isPriceForEveryEvents()) {
+            return discount;
+        }
+
+        if (visitingDate.isWeekend()) {
+            discount = calculateMainDiscount(order);
+        }
+
+        if (!visitingDate.isWeekend()) {
+            discount = calculateDessertDiscount(order);
+        }
+
+        return discount;
+    }
+
+    private int calculateMainDiscount(Order order) {
+        int discount = 0;
+        HashMap<MenuBoard, Integer> map = order.getOrder();
+        for (MenuBoard menu : map.keySet()) {
+            if (menu.getType() == MenuType.MAIN) {
+                int quantity = map.get(menu);
+                discount -= MAIN_DISCOUNT * quantity;
             }
-            if (!visitingDate.isWeekend()) {
-                HashMap<MenuBoard, Integer> map = order.getOrder();
-                for (MenuBoard menu : map.keySet()) {
-                    if (menu.getType() == MenuType.DESSERT) {
-                        int quantity = map.get(menu);
-                        discount -= DESSERT_DISCOUNT * quantity;
-                    }
-                }
+        }
+        return discount;
+    }
+
+    private int calculateDessertDiscount(Order order) {
+        int discount = 0;
+        HashMap<MenuBoard, Integer> map = order.getOrder();
+        for (MenuBoard menu : map.keySet()) {
+            if (menu.getType() == MenuType.DESSERT) {
+                int quantity = map.get(menu);
+                discount -= DESSERT_DISCOUNT * quantity;
             }
         }
         return discount;
     }
 }
+

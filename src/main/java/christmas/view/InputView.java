@@ -49,19 +49,21 @@ public class InputView {
             if (splitItem.length != 2) {
                 return false;
             }
-            String menu = splitItem[0];
             String quantityStr = splitItem[1];
-
-            try {
-                int quantity = Integer.parseInt(quantityStr);
-                if (quantity < 1) {
-                    return false;
-                }
-            } catch (NumberFormatException e) {
+            if (!isQuantityMoreThanZero(quantityStr)) {
                 return false;
             }
         }
         return true;
+    }
+
+    public static boolean isQuantityMoreThanZero(String quantityStr) {
+        try {
+            int quantity = Integer.parseInt(quantityStr);
+            return quantity > 0;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     private static Order convertToOrder(String input) {

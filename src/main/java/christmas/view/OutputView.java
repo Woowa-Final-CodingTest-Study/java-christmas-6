@@ -51,7 +51,7 @@ public class OutputView {
         NumberFormat formatter = NumberFormat.getInstance();
         String formattedBenefit = formatter.format(Ddaybenefit);
         printMessage("<혜택 내역>");
-        printMessage("크리스마스 디데이 할인: " + formattedBenefit);
+        printMessage("크리스마스 디데이 할인: " + formattedBenefit + "원");
     }
 
     public static void showDdayBenefit(VisitingDate visitingDate, int dailyBenefit) {

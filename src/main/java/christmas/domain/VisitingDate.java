@@ -1,5 +1,6 @@
 package christmas.domain;
 
+import christmas.constants.Constants;
 import christmas.constants.ErrorMessage;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -19,7 +20,7 @@ public class VisitingDate {
     }
 
     private boolean isValidDate(int day) {
-        if (day < 1 || day > 31) {
+        if (day < Constants.START_OF_MONTH || day > Constants.END_OF_MONTH) {
             return false;
         }
         return true;
@@ -36,7 +37,7 @@ public class VisitingDate {
 
     public boolean isAfterChristmas() {
         int day = visitingDate.getDayOfMonth();
-        if (day >= 26 && day <= 31) {
+        if (day >= Constants.FIRST_DAY_AFTER_CHRISTMAS && day <= Constants.END_OF_MONTH) {
             return true;
         }
         return false;
@@ -57,5 +58,4 @@ public class VisitingDate {
         }
         return false;
     }
-
 }
