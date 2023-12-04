@@ -21,7 +21,7 @@ public class Menu {
 
     public static void init() {
         if (!menuList.isEmpty())
-            throw new IllegalStateException("Menu가 이미 초기화되어 있습니다.");
+            return;
         menuList.add(new Menu("양송이수프", 6000, Category.APPETIZER));
         menuList.add(new Menu("타파스", 5500, Category.APPETIZER));
         menuList.add(new Menu("시저샐러드", 8000, Category.APPETIZER));

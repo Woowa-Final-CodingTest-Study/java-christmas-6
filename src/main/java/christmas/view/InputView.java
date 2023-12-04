@@ -50,14 +50,20 @@ public class InputView {
     }
 
     public Order readOrder() {
-        String input = Console.readLine();
-        List<String> parsedInputs = List.of(input.split(","));
+        while (true) {
+            try {
+                String input = Console.readLine();
+                List<String> parsedInputs = List.of(input.split(","));
 
-        Map<Menu, Integer> order = getOrderFromInput(parsedInputs);
-        validateOrderNotOnlyBeverage(order);
-        validateOrderTotalCount(order);
+                Map<Menu, Integer> order = getOrderFromInput(parsedInputs);
+                validateOrderNotOnlyBeverage(order);
+                validateOrderTotalCount(order);
 
-        return new Order(order);
+                return new Order(order);
+            } catch (IllegalArgumentException e) {
+                printError(e);
+            }
+        }
     }
 
     private Map<Menu, Integer> getOrderFromInput(List<String> parsedInputs) {
@@ -69,7 +75,12 @@ public class InputView {
             Menu menu = Menu.get(s[0]);
             validateMenuUnique(order, menu);
 
-            int count = Integer.parseInt(s[1]);
+            int count = 0;
+            try {
+                count = Integer.parseInt(s[1]);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException(ErrorMessage.MENU_COUNT_NOT_NUMBER);
+            }
             validateMenuCount(count);
 
             order.put(menu, count);
