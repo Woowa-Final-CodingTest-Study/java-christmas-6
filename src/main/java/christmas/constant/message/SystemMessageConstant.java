@@ -22,13 +22,12 @@ public class SystemMessageConstant {
             """;
     public static final String NO_BENEFIT_PRICE = """
             \n<총혜택 금액>
-            0원
+            %d원\n
             """;
     public static final String EXPECT_PAY_AMOUNT = """
             <할인 후 예상 결제 금액>
             %,d원\n
             """;
-
     public static final String BADGE_EVENT = """
             <%d월 이벤트 배지>
             %s

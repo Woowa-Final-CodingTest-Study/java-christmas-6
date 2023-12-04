@@ -67,7 +67,7 @@ public class OutputView {
 
     public void printTotalBenefitDiscount(int totalBenefitDiscount) {
         if(totalBenefitDiscount == 0) {
-            System.out.println(SystemMessageConstant.NO_BENEFIT_PRICE);
+            System.out.printf(SystemMessageConstant.NO_BENEFIT_PRICE, 0);
             return;
         }
         System.out.printf(SystemMessageConstant.TOTAL_BENEFIT_PRICE, totalBenefitDiscount);

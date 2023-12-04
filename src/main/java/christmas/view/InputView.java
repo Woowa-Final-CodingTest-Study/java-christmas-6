@@ -2,12 +2,19 @@ package christmas.view;
 
 import camp.nextstep.edu.missionutils.Console;
 import christmas.constant.Menu;
+import christmas.constant.MenuCategory;
 import christmas.constant.NumberConstant;
+import christmas.constant.message.ErrorMessageConstant;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class InputView {
+
+    private final String INVALID_DATE_ERROR_MESSAGE = ErrorMessageConstant.INVALID_DATE;
+    private final String INVALID_ORDER_ERROR_MESSAGE = ErrorMessageConstant.INVALID_ORDER;
 
     public int inputUserVisitDate() {
         String input = Console.readLine();
@@ -40,7 +47,7 @@ public class InputView {
 
     private void validateNull(String input) {
         if(input.isEmpty()) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.");
+            throw new IllegalArgumentException(INVALID_DATE_ERROR_MESSAGE);
         }
     }
 
@@ -48,7 +55,7 @@ public class InputView {
         try {
             return Integer.parseInt(input);
         } catch(IllegalArgumentException illegalArgumentException) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.");
+            throw new IllegalArgumentException(INVALID_DATE_ERROR_MESSAGE);
         }
     }
 
@@ -59,14 +66,14 @@ public class InputView {
         int lastDate = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         if(date < NumberConstant.FIRST_DATE || date > lastDate) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.");
+            throw new IllegalArgumentException(INVALID_DATE_ERROR_MESSAGE);
         }
     }
 
     private void validateCorrectForm(String input) {
         String deleteCharacters = input.replaceAll("[가-힣0-9,-]", "");
         if(!deleteCharacters.isEmpty()) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+            throw new IllegalArgumentException(INVALID_ORDER_ERROR_MESSAGE);
         }
     }
 
@@ -80,7 +87,7 @@ public class InputView {
     private void validateContainMenu(String[] order) {
         for(String menu : order) {
             if(!Menu.containMenu(menu)) {
-                throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+                throw new IllegalArgumentException(INVALID_ORDER_ERROR_MESSAGE);
             }
         }
     }
@@ -89,18 +96,23 @@ public class InputView {
         Set<String> duplicateSet= new HashSet<>();
         for(String menu : order) {
             if(!duplicateSet.add(menu)) {
-                throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+                throw new IllegalArgumentException(INVALID_ORDER_ERROR_MESSAGE);
             }
         }
     }
 
     private void validateOnlyBeverage(String input) {
-        String deleteMenu = input.replaceAll("제로콜라", "").replaceAll("레드와인", "")
-                .replaceAll("샴페인", "").replaceAll("[0-9,-]", "");
+        List<String> beverageMenu = MenuCategory.getMenuInCategory(MenuCategory.BEVERAGE);
+        String[] inputValue = input.split(",");
 
-        if(deleteMenu.isEmpty()) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+        for(String menu : inputValue) {
+            String[] menuName = menu.split("-");
+            if(!beverageMenu.contains(menuName[0])) {
+                return;
+            }
         }
+        throw new IllegalArgumentException(INVALID_ORDER_ERROR_MESSAGE);
+
     }
 
     private void validateCount(String input) {
@@ -115,19 +127,18 @@ public class InputView {
             int count = Integer.parseInt(number);
 
             if(count < NumberConstant.MIN_ORDER_COUNT || count > NumberConstant.MAX_ORDER_COUNT) {
-                throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+                throw new IllegalArgumentException(INVALID_ORDER_ERROR_MESSAGE);
             }
         }
     }
 
     private void validateOrderCountSum(String[] deleteExceptNumber) {
-        int sum = 0;
-        for(String number : deleteExceptNumber) {
-            sum += Integer.parseInt(number);
-        }
+        int sum = Arrays.stream(deleteExceptNumber)
+                .mapToInt(Integer::parseInt)
+                .sum();
 
         if(sum < NumberConstant.MIN_ORDER_COUNT || sum > NumberConstant.MAX_ORDER_COUNT) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+            throw new IllegalArgumentException(INVALID_ORDER_ERROR_MESSAGE);
         }
     }
 
