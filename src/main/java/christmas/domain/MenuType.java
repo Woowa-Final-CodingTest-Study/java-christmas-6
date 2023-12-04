@@ -22,8 +22,7 @@ public enum MenuType {
     APPETIZER("애피타이저", Arrays.asList(MUSHROOM_SOUP, TAPAS, CAESAR_SALAD)),
     MAIN("메인", Arrays.asList(T_BONE_STREAK, BARBEQUE_LIP, SEAFOOD_PASTA, CHRISTMAS_PASTA)),
     DESSERT("디저트", Arrays.asList(CHOCOLATE_CAKE, ICE_CREAM)),
-    DRINKS("음료", Arrays.asList(ZERO_COLA, READ_WINE, CHAMPAGNE)),
-    ;
+    DRINKS("음료", Arrays.asList(ZERO_COLA, READ_WINE, CHAMPAGNE));
 
     private String type;
     private List<Menu> menus;
@@ -33,19 +32,19 @@ public enum MenuType {
         this.menus = menus;
     }
 
-    public boolean isAppetizer(Menu menu) {
+    public static boolean isAppetizer(Menu menu) {
         return APPETIZER.menus.contains(menu);
     }
 
-    public boolean isMain(Menu menu) {
+    public static boolean isMain(Menu menu) {
         return MAIN.menus.contains(menu);
     }
 
-    public boolean isDessert(Menu menu) {
+    public static boolean isDessert(Menu menu) {
         return DESSERT.menus.contains(menu);
     }
 
-    public boolean isDrinks(Menu menu) {
+    public static boolean isDrinks(Menu menu) {
         return DRINKS.menus.contains(menu);
     }
 

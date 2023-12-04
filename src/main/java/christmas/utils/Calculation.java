@@ -7,4 +7,12 @@ public class Calculation {
         DecimalFormat formatter = new DecimalFormat("###,###");
         return formatter.format(money);
     }
+
+    public static String showMoneyWithUnit(int money) {
+        return showMoneyWithComma(money) + "원";
+    }
+
+    public static String showMoneyDiscount(int money) {
+        return "-" + showMoneyWithComma(money) + "원";
+    }
 }

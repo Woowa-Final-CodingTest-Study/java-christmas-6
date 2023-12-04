@@ -1,6 +1,7 @@
 package christmas.domain;
 
 import christmas.utils.Calculation;
+import java.util.Map;
 
 public enum Menu {
     MUSHROOM_SOUP("양송이수프", 6000),
@@ -24,6 +25,14 @@ public enum Menu {
         this.price = price;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public int getPrice() {
+        return this.price;
+    }
+
     public static Menu getMenuByName(String name) {
         for (Menu menu : Menu.values()) {
             if (menu.name.equals(name)) {
@@ -35,5 +44,25 @@ public enum Menu {
 
     public static String showMenuInfos(Menu menu) {
         return menu.name + "(" + Calculation.showMoneyWithComma(menu.price) + ")";
+    }
+
+    public static int countMainMenu(Map<Menu, Integer> orderMenu) {
+        int count = 0;
+        for (Menu menu : orderMenu.keySet()) {
+            if (MenuType.isMain(menu)) {
+                count += orderMenu.get(menu);
+            }
+        }
+        return count;
+    }
+
+    public static int countDessertMenu(Map<Menu, Integer> orderMenu) {
+        int count = 0;
+        for (Menu menu : orderMenu.keySet()) {
+            if (MenuType.isDessert(menu)) {
+                count += orderMenu.get(menu);
+            }
+        }
+        return count;
     }
 }
