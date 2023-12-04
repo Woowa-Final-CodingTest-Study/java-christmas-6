@@ -5,6 +5,7 @@ import christmas.constant.ErrorMessage;
 import christmas.model.Category;
 import christmas.model.Menu;
 import christmas.model.Order;
+import christmas.model.VisitDate;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,13 +30,13 @@ public class InputView {
         System.out.println(ErrorMessage.PREFIX + e.getMessage());
     }
 
-    public String readVisitDate() {
+    public VisitDate readVisitDate() {
         while (true) {
             try {
                 String input = Console.readLine();
                 int visitDate = Integer.parseInt(input);
                 validateVisitDateRange(visitDate);
-                return input;
+                return new VisitDate(visitDate);
             } catch (NumberFormatException e) {
                 printError(new IllegalArgumentException(ErrorMessage.VISIT_DATE_NOT_NUMBER));
             } catch (IllegalArgumentException e) {

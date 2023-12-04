@@ -1,6 +1,9 @@
 package christmas.controller;
 
+import christmas.model.Benefit;
 import christmas.model.Menu;
+import christmas.model.Order;
+import christmas.model.VisitDate;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 
@@ -26,9 +29,12 @@ public class PromotionController {
         Menu.init();
 
         outputView.notifyInputVisitDate();
-        String visitDate = inputView.readVisitDate();
+        VisitDate visitDate = inputView.readVisitDate();
 
         outputView.notifyInputOrder();
-        inputView.readOrder();
+        Order order = inputView.readOrder();
+
+        Benefit benefit = new Benefit(visitDate, order);
+        outputView.printResult(visitDate, order, benefit);
     }
 }

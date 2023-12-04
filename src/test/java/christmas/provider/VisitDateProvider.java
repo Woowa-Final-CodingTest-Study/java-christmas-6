@@ -11,7 +11,7 @@ import static org.junit.jupiter.params.provider.Arguments.*;
 
 public class VisitDateProvider implements ArgumentsProvider {
     @Override
-    public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
+    public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
         return Stream.of(
                 arguments(ErrorMessage.VISIT_DATE_NOT_NUMBER, "a"),
                 arguments(ErrorMessage.VISIT_DATE_NOT_NUMBER, " "),
