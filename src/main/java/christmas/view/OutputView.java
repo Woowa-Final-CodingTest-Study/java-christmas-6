@@ -3,6 +3,7 @@ package christmas.view;
 import static christmas.constants.GameMessage.EVENT_PREVIEW_MESSAGE;
 
 import christmas.domain.VisitingDate;
+import java.text.NumberFormat;
 
 public class OutputView {
     public static void printEventPreview(int visitingDay) {
@@ -47,8 +48,10 @@ public class OutputView {
     }
 
     public static void printDdayBenefit(int Ddaybenefit) {
+        NumberFormat formatter = NumberFormat.getInstance();
+        String formattedBenefit = formatter.format(Ddaybenefit);
         printMessage("<혜택 내역>");
-        printMessage("크리스마스 디데이 할인: " + Ddaybenefit);
+        printMessage("크리스마스 디데이 할인: " + formattedBenefit);
     }
 
     public static void showDdayBenefit(VisitingDate visitingDate, int dailyBenefit) {
@@ -61,11 +64,15 @@ public class OutputView {
     }
 
     public static void printDailyBenefit_Weekend(int dailyBenefit) {
-        printMessage("주말 할인: " + dailyBenefit);
+        NumberFormat formatter = NumberFormat.getInstance();
+        String formattedBenefit = formatter.format(dailyBenefit);
+        printMessage("주말 할인: " + formattedBenefit + "원");
     }
 
     public static void printDailyBenefit_Weekday(int dailyBenefit) {
-        printMessage("평일 할인: " + dailyBenefit);
+        NumberFormat formatter = NumberFormat.getInstance();
+        String formattedBenefit = formatter.format(dailyBenefit);
+        printMessage("평일 할인: " + formattedBenefit + "원");
     }
 
     public static void printSpecialBenefit(int specialBenefit) {
@@ -73,25 +80,37 @@ public class OutputView {
             printMessage("특별 할인: 없음");
         }
         if (specialBenefit < 0) {
-            printMessage("특별 할인: " + specialBenefit);
+            NumberFormat formatter = NumberFormat.getInstance();
+            String formattedBenefit = formatter.format(specialBenefit);
+            printMessage("특별 할인: " + formattedBenefit + "원");
         }
     }
 
     public static void printGiveawayBenefit(int giveAwayBenefit) {
-        printMessage("증정 이벤트: " + giveAwayBenefit);
+        NumberFormat formatter = NumberFormat.getInstance();
+        String formattedBenefit = formatter.format(giveAwayBenefit);
+        printMessage("증정 이벤트: " + formattedBenefit + "원");
     }
 
     public static void printTotalDiscount(int totalDiscount) {
+        NumberFormat formatter = NumberFormat.getInstance();
+        String formattedBenefit = formatter.format(totalDiscount);
         printMessage("<총혜택 금액>");
-        printMessage(totalDiscount + "원");
+        printMessage(formattedBenefit + "원");
         OutputView.printEmptyLine();
-
     }
 
     public static void printPriceAfterDiscount(int PriceAfterDiscount) {
+        NumberFormat formatter = NumberFormat.getInstance();
+        String formattedBenefit = formatter.format(PriceAfterDiscount);
         printMessage("<할인 후 예상 결제 금액>");
-        printMessage(PriceAfterDiscount + "원");
+        printMessage(formattedBenefit + "원");
         OutputView.printEmptyLine();
+    }
+
+    public static void printBadge(String badge) {
+        printMessage("<12월 이벤트 배지>");
+        printMessage(badge);
     }
 
     public static void printMessage(String message) {

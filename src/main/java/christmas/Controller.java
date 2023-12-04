@@ -9,7 +9,7 @@ import christmas.domain.event.DdayEvent;
 import christmas.domain.event.EventContext;
 import christmas.domain.Order;
 import christmas.domain.VisitingDate;
-import christmas.domain.event.EventManager;
+import christmas.domain.event.manager.EventManager;
 import christmas.domain.event.GiveawayEvent;
 import christmas.domain.event.SpecialEvent;
 import christmas.view.InputView;
@@ -28,6 +28,7 @@ public class Controller {
         EventContext context = new EventContext(order, visitingDate, ddayEvent, dailyEvent, specialEvent, giveawayEvent);
         EventManager eventManager = new EventManager(context);
         eventManager.printEventInfo(order, context, visitingDate);
+
     }
 
     public VisitingDate enrollVisitingDate() {

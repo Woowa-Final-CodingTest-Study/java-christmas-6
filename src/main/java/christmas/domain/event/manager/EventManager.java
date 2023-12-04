@@ -1,8 +1,11 @@
-package christmas.domain.event;
+package christmas.domain.event.manager;
 
 import christmas.domain.MenuBoard;
 import christmas.domain.Order;
 import christmas.domain.VisitingDate;
+import christmas.domain.event.Event;
+import christmas.domain.event.EventContext;
+import christmas.domain.event.badge.EventBadge;
 import christmas.view.OutputView;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +34,7 @@ public class EventManager {
         showBenefits(context, visitingDate);
         showTotalDiscount(totalDiscount);
         showPriceAfterDiscount(order);
+        showBadge(totalDiscount);
     }
 
     private static void showPriceBeforeDiscount(Order order) {
@@ -73,5 +77,10 @@ public class EventManager {
     private static void showPriceAfterDiscount(Order order) {
         int priceAfterDiscount = order.getPriceAfterDiscount();
         OutputView.printPriceAfterDiscount(priceAfterDiscount);
+    }
+
+    public void showBadge(int discount) {
+        String badge = EventBadge.getBadgeByTotalBenefitAmount(discount);
+        OutputView.printBadge(badge);
     }
 }
