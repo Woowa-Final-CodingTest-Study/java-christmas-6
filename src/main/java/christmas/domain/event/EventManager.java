@@ -20,8 +20,7 @@ public class EventManager {
         Order order = context.getOrder();
         checkAvailability(order);
         DdayEvent ddayEvent = context.getDdayEvent();
-        VisitingDate visitingDate = context.getVisitingDate();
-        DdayEventDiscount += ddayEvent.applyDdayEvent(visitingDate);
+        DdayEventDiscount += ddayEvent.calculateEventDiscount(context);
         return DdayEventDiscount;
     }
 
@@ -30,8 +29,7 @@ public class EventManager {
         Order order = context.getOrder();
         checkAvailability(order);
         DailyEvent dailyEvent = context.getDailyEvent();
-        VisitingDate visitingDate = context.getVisitingDate();
-        dailyEventDiscount += dailyEvent.applyDailyEvent(visitingDate, order);
+        dailyEventDiscount += dailyEvent.calculateEventDiscount(context);
         return dailyEventDiscount;
     }
 
@@ -40,8 +38,7 @@ public class EventManager {
         Order order = context.getOrder();
         checkAvailability(order);
         SpecialEvent specialEvent = context.getSpecialEvent();
-        VisitingDate visitingDate = context.getVisitingDate();
-        specialDiscount += specialEvent.applySpecialEvent(visitingDate);
+        specialDiscount += specialEvent.calculateEventDiscount(context);
         return specialDiscount;
     }
 
@@ -50,7 +47,7 @@ public class EventManager {
         Order order = context.getOrder();
         GiveawayEvent giveawayEvent = context.getGiveawayEvent();
         checkAvailability(order);
-        giveAwayDiscount += giveawayEvent.applyGiveawayEvent(order);
+        giveAwayDiscount += giveawayEvent.calculateEventDiscount(context);
         if (giveAwayDiscount > 0) {
             order.giveFreeChampagne();
         }
@@ -63,30 +60,29 @@ public class EventManager {
         OutputView.printEmptyLine();
     }
 
-    public void showDdayBenefit(EventContext context) {
+    public void showBenefits(EventContext context, VisitingDate visitingDate) {
         int ddayBenefit = calculateDdayEventDiscount(context);
-        OutputView.printDdayBenefit(ddayBenefit);
-    }
-
-    public void showDailyBenefit(VisitingDate visitingDate, EventContext context) {
         int dailyBenefit = calculateDailyEventDiscount(context);
-        if (visitingDate.isWeekend()) {
-            OutputView.printDailyBenefit_Weekend(dailyBenefit);
-        }
-        if (!visitingDate.isWeekend()) {
-            OutputView.printDailyBenefit_Weekday(dailyBenefit);
-        }
-    }
-
-    public void showSpecialBenefit(EventContext context) {
         int specialBenefit = calculateSpecialEventDiscount(context);
-        OutputView.printSpecialBenefit(specialBenefit);
-    }
-
-    public void showGiveawayBenefit(EventContext context) {
         int giveAwayDiscount = calculateGiveawayEventDiscount(context);
-        OutputView.printGiveawayBenefit(giveAwayDiscount);
-        OutputView.printEmptyLine();
+
+        if (ddayBenefit == 0 && dailyBenefit  == 0 && specialBenefit == 0 && giveAwayDiscount == 0) {
+            OutputView.printMessage("<혜택 내역>");
+            OutputView.printMessage("없음");
+            OutputView.printEmptyLine();
+        }
+        if (ddayBenefit != 0 || dailyBenefit != 0 || specialBenefit != 0 || giveAwayDiscount != 0) {
+            OutputView.printDdayBenefit(ddayBenefit);
+            if (visitingDate.isWeekend()) {
+                OutputView.printDailyBenefit_Weekend(dailyBenefit);
+            }
+            if (!visitingDate.isWeekend()) {
+                OutputView.printDailyBenefit_Weekday(dailyBenefit);
+            }
+            OutputView.printSpecialBenefit(specialBenefit);
+            OutputView.printGiveawayBenefit(giveAwayDiscount);
+            OutputView.printEmptyLine();
+        }
     }
 
     public void showTotalDiscount(int totalDiscount) {
@@ -98,5 +94,15 @@ public class EventManager {
         int priceAfterDiscount = order.getPriceAfterDiscount();
         OutputView.printPriceAfterDiscount(priceAfterDiscount);
         OutputView.printEmptyLine();
+    }
+
+    public int applyAllEvents(EventManager manager, EventContext context, Order order) {
+        int discount = 0;
+        discount += manager.calculateDdayEventDiscount(context);
+        discount += manager.calculateDailyEventDiscount(context);
+        discount += manager.calculateSpecialEventDiscount(context);
+        discount += manager.calculateGiveawayEventDiscount(context);
+        order.applyDiscount(discount);
+        return discount;
     }
 }

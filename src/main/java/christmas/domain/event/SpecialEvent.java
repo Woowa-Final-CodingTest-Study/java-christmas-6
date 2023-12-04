@@ -2,12 +2,14 @@ package christmas.domain.event;
 
 import christmas.domain.VisitingDate;
 
-public class SpecialEvent {
-    public int applySpecialEvent(VisitingDate visitingDate) {
+public class SpecialEvent implements Event{
+
+    @Override
+    public int calculateEventDiscount(EventContext context) {
+        VisitingDate visitingDate = context.getVisitingDate();
         int discount = 0;
         if (visitingDate.isAvailableForSpecialEvent()) {
             discount -= 1000;
         }
-        return discount;
-    }
+        return discount;    }
 }

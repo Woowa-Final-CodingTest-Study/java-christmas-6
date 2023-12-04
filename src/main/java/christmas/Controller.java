@@ -29,14 +29,10 @@ public class Controller {
         printPriceBeforeDiscount(order);
 
         EventContext context = new EventContext(order, visitingDate, ddayEvent, dailyEvent, specialEvent, giveawayEvent);
-        int totalDiscount = applyAllEvents(manager, context, order);
+        int totalDiscount = manager.applyAllEvents(manager, context, order);
         manager.printGiveaway(order);
 
-        manager.showDdayBenefit(context);
-        manager.showDailyBenefit(visitingDate, context);
-        manager.showSpecialBenefit(context);
-        manager.showGiveawayBenefit(context);
-
+        manager.showBenefits(context, visitingDate);
         manager.showTotalDiscount(totalDiscount);
         manager.showPriceAfterDiscount(order);
     }
@@ -83,20 +79,4 @@ public class Controller {
         OutputView.printPriceBeforeDiscount(priceBeforeDiscount);
     }
 
-    public int applyAllEvents(EventManager manager, EventContext context, Order order) {
-        int discount = 0;
-        discount += manager.calculateDdayEventDiscount(context);
-        discount += manager.calculateDailyEventDiscount(context);
-        discount += manager.calculateSpecialEventDiscount(context);
-        discount += manager.calculateGiveawayEventDiscount(context);
-        order.applyDiscount(discount);
-        return discount;
-    }
-
-    public void showBenefits(EventContext context, VisitingDate visitingDate) {
-        manager.showDdayBenefit(context);
-        manager.showDailyBenefit(visitingDate, context);
-        manager.showSpecialBenefit(context);
-        manager.showGiveawayBenefit(context);
-    }
 }

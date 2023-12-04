@@ -6,11 +6,14 @@ import christmas.domain.Order;
 import christmas.domain.VisitingDate;
 import java.util.HashMap;
 
-public class DailyEvent {
+public class DailyEvent implements Event{
     private static final int MAIN_DISCOUNT = 2023;
     private static final int DESSERT_DISCOUNT = 2023;
 
-    public int applyDailyEvent(VisitingDate visitingDate, Order order) {
+    @Override
+    public int calculateEventDiscount(EventContext context) {
+        VisitingDate visitingDate = context.getVisitingDate();
+        Order order = context.getOrder();
         int discount = 0;
         if (visitingDate.isWeekend()) {
             HashMap<MenuBoard, Integer> map = order.getOrder();
@@ -30,6 +33,5 @@ public class DailyEvent {
                 }
             }
         }
-        return discount;
-    }
+        return discount;    }
 }
