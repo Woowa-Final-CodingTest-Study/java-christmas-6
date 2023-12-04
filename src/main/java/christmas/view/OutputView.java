@@ -27,4 +27,8 @@ public class OutputView {
     public void notifyInputVisitDate() {
         println(OutputMessage.NOTIFY_INPUT_VISIT_DATE);
     }
+
+    public void notifyInputOrder() {
+        println(OutputMessage.NOTIFY_INPUT_ORDER);
+    }
 }

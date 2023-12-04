@@ -1,5 +1,6 @@
 package christmas.controller;
 
+import christmas.model.Menu;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 
@@ -22,9 +23,12 @@ public class PromotionController {
     }
 
     public void start() {
+        Menu.init();
+
         outputView.notifyInputVisitDate();
         String visitDate = inputView.readVisitDate();
 
-
+        outputView.notifyInputOrder();
+        inputView.readOrder();
     }
 }
