@@ -20,7 +20,7 @@ public class Controller {
     public void run() {
         outputView.printMessage(GameMessage.GREETINGS_MESSAGE.getMessage());
         VisitingDate visitingDate = registerVisitingDate();
-
+        Order order = registerOrder();
 
     }
 

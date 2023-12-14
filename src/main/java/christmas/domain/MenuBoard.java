@@ -5,6 +5,9 @@ import static christmas.domain.MenuType.BEVERAGE;
 import static christmas.domain.MenuType.DESSERT;
 import static christmas.domain.MenuType.MAIN;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum MenuBoard {
     양송이수프(APPETIZER, 6_000), 타파스(APPETIZER, 5_500), 시저샐러드(APPETIZER, 8_000),
     티본스테이크(MAIN, 55_000), 바비큐립(MAIN, 54_000), 해산물파스타(MAIN, 35_000), 크리스마스파스타(MAIN, 25_000),
@@ -25,5 +28,15 @@ public enum MenuBoard {
 
     public int getPrice() {
         return price;
+    }
+
+    public static List<String> getBeverageMenuItems() {
+        List<String> beverageMenuItems = new ArrayList<>();
+        for (MenuBoard menu : MenuBoard.values()) {
+            if (menu.getType() == MenuType.BEVERAGE) {
+                beverageMenuItems.add(menu.name());
+            }
+        }
+        return beverageMenuItems;
     }
 }
