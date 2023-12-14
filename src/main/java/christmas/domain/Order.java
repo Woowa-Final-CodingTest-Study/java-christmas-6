@@ -1,8 +1,6 @@
 package christmas.domain;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public class Order {
     private final HashMap<MenuBoard, Integer> order;
@@ -19,13 +17,12 @@ public class Order {
     }
 
     public String generateOrderString() {
-        StringBuilder orderString = new StringBuilder("<주문 메뉴>\n");
-        for (Entry<MenuBoard, Integer> entry : order.entrySet()) {
-            MenuBoard menu = entry.getKey();
-            Integer quantity = entry.getValue();
-            orderString.append(menu.name()).append(" ").append(quantity).append("개\n");
+        StringBuilder sb = new StringBuilder();
+        sb.append("<주문 메뉴>\n");
+        for (MenuBoard menu : order.keySet()) {
+            sb.append(menu.name()).append(" ").append(order.get(menu)).append("개\n");
         }
-        return orderString.toString();
+        return sb.toString();
     }
 
     public void applyDiscount(int totalDiscount) {
@@ -38,7 +35,7 @@ public class Order {
 
     public void calculatePriceBeforeDiscount() {
         int totalPrice = 0;
-        for (Map.Entry<MenuBoard, Integer> entry : order.entrySet()) {
+        for (HashMap.Entry<MenuBoard, Integer> entry : order.entrySet()) {
             MenuBoard menu = entry.getKey();
             int quantity = entry.getValue();
             totalPrice += menu.getPrice() * quantity;

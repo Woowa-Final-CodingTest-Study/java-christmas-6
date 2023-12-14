@@ -23,6 +23,7 @@ public class MainController {
     public void run() {
         outputView.printMessage(GameMessage.GREETINGS_MESSAGE.getMessage());
         VisitingDate visitingDate = registerVisitingDate();
+
         Order order = registerOrder();
         outputView.printMessage(order.generateOrderString());
         order.calculatePriceBeforeDiscount();

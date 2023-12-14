@@ -5,7 +5,6 @@ import christmas.domain.MenuBoard;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,6 +43,7 @@ public class InputView {
             validateMenuDuplication(menuNames);
             validateTotalQuantityCount(menuNames);
             validateAllBeverage(menuNames);
+            addMenuToOrder(order, menuNames); // !!!까먹지 말것!!!
             return order;
         } catch (IllegalArgumentException e) {
             outputView.printMessage(e.getMessage());
@@ -175,6 +175,16 @@ public class InputView {
     private void validateDateRange(int input) {
         if (input < 1 || input > 31) {
             throw new IllegalArgumentException("범위가 잘못되었습니다. 12월은 1일부터 31일까지입니다.");
+        }
+    }
+
+    private void addMenuToOrder(HashMap<MenuBoard, Integer> order, List<String> menuNames) {
+        for (String str : menuNames) {
+            String[] parts = str.split("-");
+            String menuName = parts[0];
+            int quantity = Integer.parseInt(parts[1]);
+            MenuBoard menu = MenuBoard.valueOf(menuName.toUpperCase());
+            order.put(menu, quantity);
         }
     }
 }
