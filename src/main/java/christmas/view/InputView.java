@@ -24,7 +24,7 @@ public class InputView {
             validateDateRange(visitingDate);
             return visitingDate;
         } catch (IllegalArgumentException e) {
-            outputView.printMessage(e.getMessage());
+            outputView.printMessage("[ERROR]" + e.getMessage());
             return getVisitingDate();
         }
     }
@@ -46,7 +46,7 @@ public class InputView {
             addMenuToOrder(order, menuNames); // !!!까먹지 말것!!!
             return order;
         } catch (IllegalArgumentException e) {
-            outputView.printMessage(e.getMessage());
+            outputView.printMessage("[ERROR]" + e.getMessage());
             return getOrder();
         }
     }

@@ -6,9 +6,9 @@ import christmas.domain.badge.Badge;
 public class BadgeManager {
     private Badge badgeGranted;
 
-    public void grantBadge(Order order) {
-        int priceBeforeDiscount = order.getPriceBeforeDiscount();
-        Badge badge = Badge.getBadge(priceBeforeDiscount);
+    public void grantBadge(EventManager eventManager) {
+        int totalDiscount = eventManager.getTotalDiscount();
+        Badge badge = Badge.getBadge(totalDiscount);
         badgeGranted = badge;
     }
 

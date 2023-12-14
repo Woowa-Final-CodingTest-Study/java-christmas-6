@@ -30,40 +30,43 @@ public class EventManager {
 
 
     public String giveDiscountList(VisitingDate visitingDate) {
-        if (giveawayEventDiscount == 0 && specialEventDiscount == 0 && dailyEventDiscount == 0 && ddayEventDiscount ==0) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("<혜택 내역>\n");
-            sb.append("없음\n");
+        StringBuilder sb = new StringBuilder();
+        String lineSeparator = System.lineSeparator();
+
+        if (giveawayEventDiscount == 0 && specialEventDiscount == 0 && dailyEventDiscount == 0 && ddayEventDiscount == 0) {
+            sb.append("<혜택 내역>").append(lineSeparator);
+            sb.append("없음").append(lineSeparator);
             return sb.toString();
         }
-        if (!(giveawayEventDiscount == 0 && specialEventDiscount == 0 && dailyEventDiscount == 0 && ddayEventDiscount ==0)) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("<혜택 내역>\n");
-            sb.append("크리스마스 디데이 할인: -" + formatPrice(ddayEventDiscount) + "원\n");
+        if (!(giveawayEventDiscount == 0 && specialEventDiscount == 0 && dailyEventDiscount == 0
+                && ddayEventDiscount == 0)) {
+            StringBuilder sb2 = new StringBuilder();
+            sb2.append("<혜택 내역>\n");
+            sb2.append("크리스마스 디데이 할인: -" + formatPrice(ddayEventDiscount) + "원\n");
             if (visitingDate.isWeekend()) {
-                sb.append("주말 할인: -" + formatPrice(dailyEventDiscount) + "원\n");
+                sb2.append("주말 할인: -" + formatPrice(dailyEventDiscount) + "원\n");
             }
             if (!visitingDate.isWeekend()) {
-                sb.append("평일 할인: -" + formatPrice(dailyEventDiscount) + "원\n");
+                sb2.append("평일 할인: -" + formatPrice(dailyEventDiscount) + "원\n");
             }
-            sb.append("특별 할인: -" + formatPrice(specialEventDiscount) + "원\n");
-            sb.append("증정 이벤트: -" + formatPrice(giveawayEventDiscount) + "원\n");
-            return sb.toString();
+            sb2.append("특별 할인: -" + formatPrice(specialEventDiscount) + "원\n");
+            sb2.append("증정 이벤트: -" + formatPrice(giveawayEventDiscount) + "원\n");
+            return sb2.toString();
         }
         return null;
     }
 
     public String giveTotalDiscount() {
-        if (!(totalDiscount == 0)) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("<총혜택 금액>\n");
-            sb.append("-" + formatPrice(totalDiscount) + "원\n");
-            return sb.toString();
-        }
         if (totalDiscount == 0) {
             StringBuilder sb = new StringBuilder();
             sb.append("<총혜택 금액>\n");
-            sb.append("없음");
+            sb.append(totalDiscount + "원\n");
+            return sb.toString();
+        }
+        if (totalDiscount != 0) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("<총혜택 금액>\n");
+            sb.append("-" + formatPrice(totalDiscount) + "원\n");
             return sb.toString();
         }
         return null;

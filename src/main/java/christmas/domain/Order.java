@@ -17,7 +17,7 @@ public class Order {
     }
 
     public void calculatePriceAfterDiscount(int discount) {
-        priceAfterDiscount = priceBeforeDiscount - discount;
+        priceAfterDiscount = priceBeforeDiscount - discount + MenuBoard.샴페인.getPrice();
     }
 
     public int getPriceBeforeDiscount() {
@@ -26,6 +26,7 @@ public class Order {
 
     public String givePriceAfterDiscountInformation() {
         StringBuilder sb = new StringBuilder();
+//        sb.append("\n");
         sb.append("<할인 후 예상 결제 금액>\n");
         sb.append(formatPrice(priceAfterDiscount) + "원");
         return sb.toString();
@@ -87,7 +88,7 @@ public class Order {
 
         if (freeChampagne == 1) {
             sb.append("<증정 메뉴>\n");
-            sb.append(freeChampagne + "개");
+            sb.append("샴페인 " + freeChampagne + "개");
         }
         if (freeChampagne == 0) {
             sb.append("<증정 메뉴>\n");

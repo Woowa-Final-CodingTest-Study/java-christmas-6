@@ -45,7 +45,7 @@ public class MainController {
         printPriceAfterDiscount(order);
 
         BadgeManager badgeManager = new BadgeManager();
-        badgeManager.grantBadge(order);
+        badgeManager.grantBadge(eventManager);
         printBadge(badgeManager);
     }
 
@@ -80,7 +80,7 @@ public class MainController {
 
     public void printTotalDiscount(EventManager eventManager) {
         String totalDiscount = eventManager.giveTotalDiscount();
-        outputView.print(totalDiscount);
+        outputView.printMessage(totalDiscount);
     }
     public void calculateTotalPriceAfterDiscount(EventManager eventManager, Order order) {
         int totalDiscount = eventManager.getTotalDiscount();
@@ -88,12 +88,12 @@ public class MainController {
     }
 
     public void printPriceAfterDiscount(Order order) {
-        outputView.printEmptyLine();
         String price = order.givePriceAfterDiscountInformation();
         outputView.printMessage(price);
     }
 
     public void printBadge(BadgeManager badgeManager) {
+        outputView.printEmptyLine();
         String badge = badgeManager.giveBadgeResult();
         outputView.printMessage(badge);
     }
