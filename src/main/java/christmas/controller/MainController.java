@@ -11,10 +11,13 @@ import java.util.Map;
 public class MainController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final EventController eventController;
 
-    public MainController(InputView inputView, OutputView outputView) {
+
+    public MainController(InputView inputView, OutputView outputView, EventController eventController) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.eventController = eventController;
     }
 
     public void run() {
@@ -22,6 +25,7 @@ public class MainController {
         VisitingDate visitingDate = registerVisitingDate();
         Order order = registerOrder();
         outputView.printMessage(order.generateOrderString());
+        eventController.run(order);
     }
 
     public VisitingDate registerVisitingDate() {
