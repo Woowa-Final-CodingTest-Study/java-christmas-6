@@ -1,6 +1,6 @@
 package christmas;
 
-import christmas.controller.Controller;
+import christmas.controller.MainController;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 
@@ -10,7 +10,7 @@ public class Application {
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
 
-        Controller controller = new Controller(inputView, outputView);
+        MainController controller = new MainController(inputView, outputView);
         controller.run();
     }
 }

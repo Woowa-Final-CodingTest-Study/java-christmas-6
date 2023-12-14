@@ -8,11 +8,11 @@ import christmas.view.InputView;
 import christmas.view.OutputView;
 import java.util.Map;
 
-public class Controller {
+public class MainController {
     private final InputView inputView;
     private final OutputView outputView;
 
-    public Controller(InputView inputView, OutputView outputView) {
+    public MainController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
     }
@@ -21,7 +21,7 @@ public class Controller {
         outputView.printMessage(GameMessage.GREETINGS_MESSAGE.getMessage());
         VisitingDate visitingDate = registerVisitingDate();
         Order order = registerOrder();
-
+        outputView.printMessage(order.generateOrderString());
     }
 
     public VisitingDate registerVisitingDate() {
