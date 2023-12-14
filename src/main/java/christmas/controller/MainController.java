@@ -23,11 +23,21 @@ public class MainController {
     public void run() {
         outputView.printMessage(GameMessage.GREETINGS_MESSAGE.getMessage());
         VisitingDate visitingDate = registerVisitingDate();
-
         Order order = registerOrder();
+
         outputView.printMessage(order.generateOrderString());
         order.calculatePriceBeforeDiscount();
         printPriceBeforeDiscount(order);
+
+        EventManager eventManager = new EventManager();
+        eventManager.calculateDiscounts(visitingDate, order);
+        int totalDiscount = eventManager.getTotalDiscount();
+        order.applyDiscount(totalDiscount);
+
+        printGiveawayInformation(order);
+        printDiscountList(eventManager, visitingDate, order);
+
+        printTotalDiscount(eventManager);
     }
 
     public VisitingDate registerVisitingDate() {
@@ -38,12 +48,31 @@ public class MainController {
 
     public Order registerOrder() {
         outputView.printMessage(GameMessage.ASK_ORDER_MESSAGE.getMessage());
-        HashMap<MenuBoard, Integer> order =  inputView.getOrder();
+        HashMap<MenuBoard, Integer> order = inputView.getOrder();
         return new Order(order);
     }
 
     public void printPriceBeforeDiscount(Order order) {
         String priceBeforeDiscount = order.givePriceBeforeDiscountMessage();
-        System.out.println(priceBeforeDiscount);
+        outputView.printMessage(priceBeforeDiscount);
     }
+
+    public void printGiveawayInformation(Order order) {
+        outputView.printEmptyLine();
+        String freeChampagneInfo = order.giveFreeChampagneInfo();
+        outputView.printMessage(freeChampagneInfo);
+        outputView.printEmptyLine();
+    }
+
+    public void printDiscountList(EventManager eventManager, VisitingDate visitingDate, Order order) {
+        String discountList = eventManager.giveDiscountList(visitingDate);
+        outputView.printMessage(discountList);
+    }
+
+    public void printTotalDiscount(EventManager eventManager) {
+        String totalDiscount = eventManager.giveTotalDiscount();
+        outputView.print(totalDiscount);
+    }
+
+
 }

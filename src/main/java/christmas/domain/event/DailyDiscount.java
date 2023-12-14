@@ -22,11 +22,14 @@ public class DailyDiscount {
 
     private int calculateDiscount(Order order, MenuType menuType, int discountPerItem) {
         int discount = 0;
-        Map<MenuBoard, Integer> map = order.getOrder();
-        for (Map.Entry<MenuBoard, Integer> entry : map.entrySet()) {
-            if (entry.getKey().getType() == menuType) {
-                discount -= discountPerItem * entry.getValue();
+        if (order.isForAllEvents()) {
+            Map<MenuBoard, Integer> map = order.getOrder();
+            for (Map.Entry<MenuBoard, Integer> entry : map.entrySet()) {
+                if (entry.getKey().getType() == menuType) {
+                    discount -= discountPerItem * entry.getValue();
+                }
             }
+            return discount;
         }
         return discount;
     }

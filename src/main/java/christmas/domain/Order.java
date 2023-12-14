@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Order {
     private final HashMap<MenuBoard, Integer> order;
-    private int freeChampagne;
+    private int freeChampagne = 0;
     private int priceBeforeDiscount;
     private int priceAfterDiscount;
 
@@ -23,6 +23,10 @@ public class Order {
             sb.append(menu.name()).append(" ").append(order.get(menu)).append("개\n");
         }
         return sb.toString();
+    }
+
+    public boolean isForAllEvents() {
+        return priceBeforeDiscount >= 10000;
     }
 
     public void applyDiscount(int totalDiscount) {
@@ -44,8 +48,9 @@ public class Order {
     }
 
     public boolean isForGiveawayEvent() {
-        return (priceBeforeDiscount >= 120_000);
+        return priceBeforeDiscount >= 120_000;
     }
+
 
     public int getFreeChampagne() {
         return freeChampagne;
@@ -58,9 +63,22 @@ public class Order {
         return sb.toString();
     }
 
-
     public int getPriceAfterDiscount() {
         return priceAfterDiscount;
+    }
+
+    public String giveFreeChampagneInfo() {
+        StringBuilder sb = new StringBuilder();
+
+        if (freeChampagne == 1) {
+            sb.append("<증정 메뉴>\n");
+            sb.append(freeChampagne + "개");
+        }
+        if (freeChampagne == 0) {
+            sb.append("<증정 메뉴>\n");
+            sb.append("없음");
+        }
+        return sb.toString();
     }
 }
 
