@@ -1,7 +1,6 @@
 package christmas.domain;
 
-import java.time.LocalDate;
-
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 public class VisitingDate {
@@ -14,4 +13,27 @@ public class VisitingDate {
     public LocalDate getVisitingDate() {
         return visitingDate;
     }
+
+    public boolean isForSpecialEvent() {
+        int dayOfMonth = visitingDate.getDayOfMonth();
+        int[] specialEventDays = {3, 10, 17, 24, 25, 31};
+
+        for (int specialDay : specialEventDays) {
+            if (dayOfMonth == specialDay) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isForWeekdayEvent() {
+        DayOfWeek dayOfWeek = visitingDate.getDayOfWeek();
+        return dayOfWeek != DayOfWeek.FRIDAY && dayOfWeek != DayOfWeek.SATURDAY;
+    }
+
+    public boolean isForWeekendEvent() {
+        DayOfWeek dayOfWeek = visitingDate.getDayOfWeek();
+        return dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY;
+    }
+
 }
