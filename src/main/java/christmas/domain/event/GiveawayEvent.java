@@ -8,7 +8,7 @@ public class GiveawayEvent {
         if (order.isForAllEvents()) {
             if (order.isForGiveawayEvent()) {
                 order.giveFreeChampagne();
-                discount -= 25_000;
+                discount += 25_000;
             }
             return discount;
         }

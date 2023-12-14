@@ -28,7 +28,7 @@ public class VisitingDate {
 
     public boolean isWeekend() {
         DayOfWeek dayOfWeek = visitingDate.getDayOfWeek();
-        return dayOfWeek != DayOfWeek.FRIDAY && dayOfWeek != DayOfWeek.SATURDAY;
+        return (dayOfWeek == DayOfWeek.FRIDAY && dayOfWeek == DayOfWeek.SATURDAY);
     }
 
     public boolean isBeforeChristmas() {
@@ -39,9 +39,6 @@ public class VisitingDate {
 
     public int calculateDiscountPriceForDdayEvent() {
         int day = visitingDate.getDayOfMonth();
-        return -(1000 + (day - 1) * 100);
+        return (1000 + (day - 1) * 100);
     }
-
-
-
 }

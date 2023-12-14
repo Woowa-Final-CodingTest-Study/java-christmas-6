@@ -27,8 +27,9 @@ public class EventManager {
         specialEventDiscount = calculateSpecialDiscount(visitingDate, order);
         dailyEventDiscount = calculateDailyDiscount(visitingDate, order);
         ddayEventDiscount = calculateDdayDiscount(visitingDate, order);
-        totalDiscount = giveawayEventDiscount + specialEventDiscount + dailyEventDiscount + ddayEventDiscount + ddayEventDiscount;
+        totalDiscount = giveawayEventDiscount + specialEventDiscount + dailyEventDiscount + ddayEventDiscount;
     }
+
 
     public String giveDiscountList(VisitingDate visitingDate) {
         if (giveawayEventDiscount == 0 && specialEventDiscount == 0 && dailyEventDiscount == 0 && ddayEventDiscount ==0) {
@@ -58,10 +59,10 @@ public class EventManager {
         if (!(totalDiscount == 0)) {
             StringBuilder sb = new StringBuilder();
             sb.append("<총혜택 금액>\n");
-            sb.append(formatPrice(totalDiscount) + "원\n");
+            sb.append("-" + formatPrice(totalDiscount) + "원\n");
             return sb.toString();
         }
-        if (totalDiscount ==0) {
+        if (totalDiscount == 0) {
             StringBuilder sb = new StringBuilder();
             sb.append("<총혜택 금액>\n");
             sb.append("없음");

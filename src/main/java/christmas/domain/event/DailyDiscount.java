@@ -26,7 +26,7 @@ public class DailyDiscount {
             Map<MenuBoard, Integer> map = order.getOrder();
             for (Map.Entry<MenuBoard, Integer> entry : map.entrySet()) {
                 if (entry.getKey().getType() == menuType) {
-                    discount -= discountPerItem * entry.getValue();
+                    discount += discountPerItem * entry.getValue();
                 }
             }
             return discount;
