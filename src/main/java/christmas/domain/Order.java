@@ -24,5 +24,16 @@ public class Order {
         return orderString.toString();
     }
 
+    public int generateTotalPrice() {
+        int totalPrice = 0;
+        for (Map.Entry<MenuBoard, Integer> entry : order.entrySet()) {
+            MenuBoard menu = entry.getKey();
+            int quantity = entry.getValue();
+            totalPrice += menu.getPrice() * quantity;
+        }
+        return totalPrice;
+    }
 }
+
+
 
