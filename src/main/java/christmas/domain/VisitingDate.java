@@ -26,14 +26,22 @@ public class VisitingDate {
         return false;
     }
 
-    public boolean isForWeekdayEvent() {
+    public boolean isWeekend() {
         DayOfWeek dayOfWeek = visitingDate.getDayOfWeek();
         return dayOfWeek != DayOfWeek.FRIDAY && dayOfWeek != DayOfWeek.SATURDAY;
     }
 
-    public boolean isForWeekendEvent() {
-        DayOfWeek dayOfWeek = visitingDate.getDayOfWeek();
-        return dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY;
+    public boolean isBeforeChristmas() {
+        LocalDate christmasDate = LocalDate.of(2023, 12, 25);
+        return visitingDate.isBefore(christmasDate);
     }
+
+
+    public int calculateDiscountPriceForDdayEvent() {
+        int day = visitingDate.getDayOfMonth();
+        return -(1000 + (day - 1) * 100);
+    }
+
+
 
 }

@@ -30,9 +30,9 @@ public class InputView {
         }
     }
 
-    public Map<MenuBoard, Integer> getOrder() {
+    public HashMap<MenuBoard, Integer> getOrder() {
         try {
-            Map<MenuBoard, Integer> order = new HashMap<>();
+            HashMap<MenuBoard, Integer> order = new HashMap<>();
             String orderInput = getInput();
             validateOrderFormat(orderInput);
             List<String> menuNames = List.of(orderInput.split(","));
@@ -44,7 +44,6 @@ public class InputView {
             validateMenuDuplication(menuNames);
             validateTotalQuantityCount(menuNames);
             validateAllBeverage(menuNames);
-
             return order;
         } catch (IllegalArgumentException e) {
             outputView.printMessage(e.getMessage());
