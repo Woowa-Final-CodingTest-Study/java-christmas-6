@@ -26,10 +26,7 @@ public class MainController {
         Order order = registerOrder();
         outputView.printMessage(order.generateOrderString());
         order.calculatePriceBeforeDiscount();
-        EventManager eventManager = new EventManager();
-        int totalDiscount = eventManager.calculateTotalDiscount(visitingDate, order);
-        order.applyDiscount(totalDiscount);
-
+        printPriceBeforeDiscount(order);
     }
 
     public VisitingDate registerVisitingDate() {
@@ -42,5 +39,10 @@ public class MainController {
         outputView.printMessage(GameMessage.ASK_ORDER_MESSAGE.getMessage());
         HashMap<MenuBoard, Integer> order =  inputView.getOrder();
         return new Order(order);
+    }
+
+    public void printPriceBeforeDiscount(Order order) {
+        String priceBeforeDiscount = order.givePriceBeforeDiscountMessage();
+        System.out.println(priceBeforeDiscount);
     }
 }

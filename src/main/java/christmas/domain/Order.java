@@ -49,6 +49,22 @@ public class Order {
     public boolean isForGiveawayEvent() {
         return (priceBeforeDiscount >= 120_000);
     }
+
+    public int getFreeChampagne() {
+        return freeChampagne;
+    }
+
+    public String givePriceBeforeDiscountMessage() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<할인 전 총주문 금액>\n");
+        sb.append(String.format("%,d원", priceBeforeDiscount));
+        return sb.toString();
+    }
+
+
+    public int getPriceAfterDiscount() {
+        return priceAfterDiscount;
+    }
 }
 
 
