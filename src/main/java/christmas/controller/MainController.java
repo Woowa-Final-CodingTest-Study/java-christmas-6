@@ -38,6 +38,10 @@ public class MainController {
         printDiscountList(eventManager, visitingDate, order);
 
         printTotalDiscount(eventManager);
+        calculateTotalPriceAfterDiscount(eventManager, order);
+
+        printPriceAfterDiscount(order);
+
     }
 
     public VisitingDate registerVisitingDate() {
@@ -73,6 +77,14 @@ public class MainController {
         String totalDiscount = eventManager.giveTotalDiscount();
         outputView.print(totalDiscount);
     }
+    public void calculateTotalPriceAfterDiscount(EventManager eventManager, Order order) {
+        int totalDiscount = eventManager.getTotalDiscount();
+        order.calculatePriceAfterDiscount(totalDiscount);
+    }
 
-
+    public void printPriceAfterDiscount(Order order) {
+        outputView.printEmptyLine();
+        String price = order.givePriceAfterDiscountInformation();
+        outputView.printMessage(price);
+    }
 }

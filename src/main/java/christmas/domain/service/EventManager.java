@@ -6,9 +6,6 @@ import christmas.domain.event.DailyDiscount;
 import christmas.domain.event.DdayDiscount;
 import christmas.domain.event.GiveawayEvent;
 import christmas.domain.event.SpecialDiscount;
-import java.util.List;
-import javax.naming.event.EventContext;
-import jdk.jfr.Event;
 
 public class EventManager {
     private int giveawayEventDiscount;

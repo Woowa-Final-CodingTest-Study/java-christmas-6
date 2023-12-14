@@ -16,6 +16,17 @@ public class Order {
         return order;
     }
 
+    public void calculatePriceAfterDiscount(int discount) {
+        priceAfterDiscount = priceBeforeDiscount - discount;
+    }
+
+    public String givePriceAfterDiscountInformation() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<할인 후 예상 결제 금액>\n");
+        sb.append(formatPrice(priceAfterDiscount) + "원");
+        return sb.toString();
+    }
+
     public String generateOrderString() {
         StringBuilder sb = new StringBuilder();
         sb.append("<주문 메뉴>\n");
@@ -59,7 +70,7 @@ public class Order {
     public String givePriceBeforeDiscountMessage() {
         StringBuilder sb = new StringBuilder();
         sb.append("<할인 전 총주문 금액>\n");
-        sb.append(String.format("%,d원", priceBeforeDiscount));
+        sb.append(formatPrice(priceBeforeDiscount) + "원");
         return sb.toString();
     }
 
@@ -79,6 +90,10 @@ public class Order {
             sb.append("없음");
         }
         return sb.toString();
+    }
+
+    private String formatPrice(int price) {
+        return String.format("%,d", Math.abs(price));
     }
 }
 
