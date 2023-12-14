@@ -2,6 +2,7 @@ package christmas.domain.service;
 
 import christmas.domain.Order;
 import christmas.domain.VisitingDate;
+import christmas.domain.badge.Badge;
 import christmas.domain.event.DailyDiscount;
 import christmas.domain.event.DdayDiscount;
 import christmas.domain.event.GiveawayEvent;

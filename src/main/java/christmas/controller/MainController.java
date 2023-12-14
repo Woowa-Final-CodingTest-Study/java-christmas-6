@@ -4,6 +4,8 @@ import christmas.constants.GameMessage;
 import christmas.domain.MenuBoard;
 import christmas.domain.Order;
 import christmas.domain.VisitingDate;
+import christmas.domain.badge.Badge;
+import christmas.domain.service.BadgeManager;
 import christmas.domain.service.EventManager;
 import christmas.view.InputView;
 import christmas.view.OutputView;
@@ -42,6 +44,9 @@ public class MainController {
 
         printPriceAfterDiscount(order);
 
+        BadgeManager badgeManager = new BadgeManager();
+        badgeManager.grantBadge(order);
+        printBadge(badgeManager);
     }
 
     public VisitingDate registerVisitingDate() {
@@ -86,5 +91,10 @@ public class MainController {
         outputView.printEmptyLine();
         String price = order.givePriceAfterDiscountInformation();
         outputView.printMessage(price);
+    }
+
+    public void printBadge(BadgeManager badgeManager) {
+        String badge = badgeManager.giveBadgeResult();
+        outputView.printMessage(badge);
     }
 }

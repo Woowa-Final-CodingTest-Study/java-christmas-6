@@ -20,6 +20,10 @@ public class Order {
         priceAfterDiscount = priceBeforeDiscount - discount;
     }
 
+    public int getPriceBeforeDiscount() {
+        return priceBeforeDiscount;
+    }
+
     public String givePriceAfterDiscountInformation() {
         StringBuilder sb = new StringBuilder();
         sb.append("<할인 후 예상 결제 금액>\n");
